@@ -158,8 +158,8 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
-        'email' =>[
-          'exists' => 'لايوجد حساب خاص بالبريد الاكتروني الذي تم ادخاله',
+        'username' =>[
+          'exists' => 'لايوجد حساب خاص باسم المستعمل الذي تم ادخاله',
         ]
     ],
 

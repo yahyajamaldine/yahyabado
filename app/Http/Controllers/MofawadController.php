@@ -49,11 +49,21 @@ class MofawadController extends Controller
 
     public function search(Request $request) {
 
-        if(!empty(request('table'))){
-        $file = DB::table(request('table'))->find(request('number'));
+        if(!empty(request('wantedkind'))){
+
+        $file = DB::table(request('wantedkind'))
+        ->where('Raqem', '=', request('findmilaf'))
+        ->orWhere('taleb','like' ,'%'.request('findmilaf').'%')
+        ->orWhere('matlob','like' ,'%'.request('findmilaf').'%')
+        ->get();
+
         $tablexist=true;
-        $tabletype=request('table');
-        if($file){
+        $tabletype=request('wantedkind');
+        if(DB::table(request('wantedkind'))
+        ->where('Raqem', '=', request('findmilaf'))
+        ->orWhere('taleb','like' ,'%'.request('findmilaf').'%')
+        ->orWhere('matlob','like' ,'%'.request('findmilaf').'%')
+        ->exists()){
          if( $tabletype == 'filetablighi'){
 
             $tablighramz=DB::table('fileTBnB')
@@ -63,24 +73,20 @@ class MofawadController extends Controller
                       ->whereColumn('filetablighi.id', 'fileTBnB.filetablighi_id');
             })->get();
 
-            return view('search',['tanfidi' => $file, 'tablexist' => $tablexist, 'tabletype' =>  $tabletype, 'tablighramz' => $tablighramz]);
+            return view('search',['watika' => $file, 'tablexist' => $tablexist, 'tabletype' =>  $tabletype, 'tablighramz' => $tablighramz]);
          }
 
-        return view('search',['tanfidi' => $file, 'tablexist' => $tablexist, 'tabletype' =>  $tabletype]);
+        return view('search',['watika' => $file, 'tablexist' => $tablexist, 'tabletype' =>  $tabletype]);
         }
+
         else{
-            return view('search',['notfound' => 'لايوجد اي ملف بالرقم الذي ادخلته', 'tablexist' => $tablexist, 'tabletype' =>  $tabletype]);  
+            return view('search',['notfound' => 'لايوجد اي ملف بالمعلومات التي تم إدخالها', 'tablexist' => $tablexist, 'tabletype' =>  $tabletype]);  
         }
         }
+
         else{
            return view('search');
         }
-    } 
-
-    public function searchfor() {
-
-        return redirect()->route('search', ['number' => request('findmilaf'), 'table' => request('wantedkind')]);
-
     } 
     public function success() {
          if (empty(request('msg'))){
@@ -133,8 +139,8 @@ class MofawadController extends Controller
         $filetablighi->rakmoha_rakem=request('rakmoha_rakem');
         $filetablighi->kadiya_type=request('kadiya_type');
         $filetablighi->date_receive=request('date_receive');
-        $filetablighi->taleb_lijra=request('taleb_lijra');
-        $filetablighi->naib=request('naib');
+        $filetablighi->taleb=request('taleb_lijra');
+        $filetablighi->matlob=request('naib');
         $filetablighi->date_ijraa=request('date_ijraa');
         $filetablighi->watika_reciev=request('date_back');
         $filetablighi->watika=request('watika');
@@ -173,8 +179,8 @@ class MofawadController extends Controller
         $Ijraa->Raqem=request('Raqem');
         $Ijraa->ijraa_type=request('ijraa_type');
         $Ijraa->date_receive=request('date_receive');
-        $Ijraa->taleb_ijraa=request('taleb');
-        $Ijraa->matlob_d=request('matlob');
+        $Ijraa->taleb=request('taleb');
+        $Ijraa->matlob=request('matlob');
         $Ijraa->creat_date=request('date_creation');
         $Ijraa->ijraa_rs=request('resume');
         $Ijraa->watika_reciev=request('watika_r');

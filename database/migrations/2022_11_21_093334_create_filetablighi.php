@@ -22,13 +22,13 @@ return new class extends Migration
             $table->integer('rakmoha_rakem');
             $table->string('kadiya_type');
             $table->date('date_receive');
-            $table->string('taleb_lijra');
-            $table->string('naib');
+            $table->string('taleb');
+            $table->string('matlob');
             $table->date('date_ijraa');
             $table->date('watika_reciev')->nullable();
-            $table->string('watika');
-            $table->string('add_notif');
-            $table->text('note');
+            $table->string('watika')->nullable();
+            $table->string('add_notif')->nullable();
+            $table->text('note')->nullable();
             $table->timestamps();
         });
     }

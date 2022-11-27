@@ -46,25 +46,23 @@
           div.select-box-search select{
             float: none;
              margin-left:0;
-             height: 40px;
-             font-size:1rem;
+             height: 45px;
+             font-size:16px;
              margin-bottom:10px;
-             width: 30%;
+             width: 110px;
   padding: 0px 15px;
   cursor: pointer;
-  border: 1px solid white;
+  border: 1px solid;
   font-weight: bold;
   border-radius: 10px;
   background: #f5ba1a;
   color:white;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
   transition: all 0.2s ease;
           }
 
           div.select_arrow {  position: relative;
-  top: 24px;
+            
+  top: 27px;
   right: 85px;
   width: 0;
   height: 0;
@@ -72,8 +70,16 @@
   border-width: 8px 5px 0 5px;
   border-style: solid;
   border-color: white transparent transparent transparent;
-
-
+}
+@-moz-document url-prefix() {
+  div.select-box-search select{
+    font-size:14px;
+    width: 120px;
+  }
+  div.select_arrow {
+    top: 27px;
+    right: 100px;
+  }
 }
 
           .select_option select:hover, .select_option select:focus {
@@ -96,13 +102,14 @@
          #file_result {
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
-  font-size:calc(0.75rem + 2px);
+  font-size:calc(0.75rem + 3px);
   width: 100%;
 }
 
 #file_result td, #file_result th {
   border: 1px solid #ddd;
   text-align:center;
+  letter-spacing: 1px;
   padding: 8px;
 }
 
@@ -114,15 +121,18 @@
   padding-top: 12px;
   text-align:right;
   padding-bottom: 12px;
+  letter-spacing: 1px;
   background-color: #f5ba1a;
   color: white;
+
 }
-td.notfound{
+#file_result td.notfound{
     margin-top:50px;
     background-color: rgb(240, 231, 231);
+    color:#ef4444;
     text-align:center;
     font-weight:bold;
-    letter-spacing: 1px;
+    letter-spacing: 0.8px;
 }
 
 </style>
@@ -206,18 +216,18 @@ td.notfound{
       </ul>
      </header>
     </div>
-    <form method="POST" action="{{ route('searchfor') }}" class="container">
+    <form method="POST" action="{{ route('search') }}" class="container">
          @csrf
         <div class="search_block">
           <div class="searchform">
             <div class="CcAdNb"><span class="QCzoEc z1asCe MZy1Rb" style="height:20px;line-height:20px;width:20px">
             <svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg></span></div>
-            <input class="searchinput" name="findmilaf" type="text" required placeholder="بحث">
+            <input class="searchinput" name="findmilaf" type="text" required placeholder="بحث" value="{{ old('findmilaf') }}">
             <button type="submit">بحث</button>
          </div>
          <div class="select-box-search select_option">
           <div class="select_arrow" ></div>
-          <select name="wantedkind" required>
+          <select name="wantedkind" value="{{ old('wantedkind') }}" required>
             <option value="file_tanfidi" >ملف تنفيدي</option>
             <option value="filetablighi">ملف تبليغى</option>
             <option value="Ijraa">اجراء</option>
@@ -281,25 +291,29 @@ td.notfound{
 
           </thead>
           <tbody>
-          @if(empty($tanfidi))
-            <tr><td class="notfound" colspan="15" >{{ $notfound }}</td></tr>
-          @elseif($tanfidi && $tabletype == 'file_tanfidi')
-          <tr>
-          <td>{{ $tanfidi->Raqem }}</td>
-          <td>{{ $tanfidi->date_receive }}</td>
-          <td>{{ $tanfidi->ijrae_type }}</td>
-          <td>{{ $tanfidi->marge_ref }}</td>
-          <td>{{ $tanfidi->taleb }}</td>
-          <td>{{ $tanfidi->matlob }}</td>
-          <td>{{ $tanfidi->date_creation }}</td>
-          <td>{{ $tanfidi->resume }}</td>
-          <td>{{ $tanfidi->date_back }}</td>
-          <td>{{ $tanfidi->add_file }}</td>
-          <td>{{ $tanfidi->note }}</td>
+          @if(empty($watika))
+            <tr><td class="notfound" colspan="15" >
+              {{ $notfound }} </td>
+            </tr>
+          @elseif($watika && $tabletype == 'file_tanfidi')
+          @foreach($watika as $milaf)
+          <td>{{ $milaf->Raqem }}</td>
+          <td>{{ $milaf->date_receive }}</td>
+          <td>{{ $milaf->ijrae_type }}</td>
+          <td>{{ $milaf->marge_ref }}</td>
+          <td>{{ $milaf->taleb }}</td>
+          <td>{{ $milaf->matlob }}</td>
+          <td>{{ $milaf->date_creation }}</td>
+          <td>{{ $milaf->resume }}</td>
+          <td>{{ $milaf->watika_reciev }}</td>
+          <td>{{ $milaf->add_file }}</td>
+          <td>{{ $milaf->note }}</td>
          </tr>
-         @elseif($tanfidi && $tabletype == 'filetablighi')
+          @endforeach
+         @elseif($watika && $tabletype == 'filetablighi')
+         @foreach($watika as $milaf)
           <tr>
-          <td>{{ $tanfidi->Raqem }}</td>
+          <td>{{ $watika->Raqem }}</td>
           @if (!empty($tablighramz))
           <td lang='en' dir='ltr'>
           {{ $tablighramz[0]->year_kad }} /
@@ -307,33 +321,36 @@ td.notfound{
            {{ $tablighramz[0]->rakem_kad }}
           </td>
           @endif
-          <td>{{ $tanfidi->kad_type }}</td>
-          <td>{{ $tanfidi->jalsa_date }}</td>
-          <td>{{ $tanfidi->it_source }}</td>
-          <td>{{ $tanfidi->rakmoha_rakem}}</td>
-          <td>{{ $tanfidi->kadiya_type }}</td>
-          <td>{{ $tanfidi->date_receive}}</td>
-          <td>{{ $tanfidi->taleb_lijra }}</td>
-          <td>{{ $tanfidi->naib }}</td>
-          <td>{{ $tanfidi->date_ijraa }}</td>
-          <td>{{ $tanfidi->date_back }}</td>
-          <td>{{ $tanfidi->watika }}</td>
-          <td>{{ $tanfidi->add_notif}}</td>
-          <td>{{ $tanfidi->note }}</td>
+          <td>{{ $watika->kad_type }}</td>
+          <td>{{ $watika->jalsa_date }}</td>
+          <td>{{ $watika->it_source }}</td>
+          <td>{{ $watika->rakmoha_rakem}}</td>
+          <td>{{ $watika->kadiya_type }}</td>
+          <td>{{ $watika->date_receive}}</td>
+          <td>{{ $watika->taleb }}</td>
+          <td>{{ $watika->matlob }}</td>
+          <td>{{ $watika->date_ijraa }}</td>
+          <td>{{ $watika->watika_reciev }}</td>
+          <td>{{ $watika->watika }}</td>
+          <td>{{ $watika->add_notif}}</td>
+          <td>{{ $watika->note }}</td>
          </tr>
-         @elseif($tanfidi && $tabletype == 'Ijraa')
+         @endforeach
+         @elseif($watika && $tabletype == 'Ijraa')
+         @foreach($watika as $milaf)
           <tr>
-          <td>{{ $tanfidi->Raqem }}</td>
-          <td>{{ $tanfidi->ijraa_type }}</td>
-          <td>{{ $tanfidi->date_receive }}</td>
-          <td>{{ $tanfidi->taleb_ijraa }}</td>
-          <td>{{ $tanfidi->matlob_d }}</td>
-          <td>{{ $tanfidi->creat_date }}</td>
-          <td>{{ $tanfidi->ijraa_rs}}</td>
-          <td>{{ $tanfidi->watika_reciev }}</td>
-          <td>{{ $tanfidi->watika_up}}</td>
-          <td>{{ $tanfidi->note }}</td>
+          <td>{{ $watika->Raqem }}</td>
+          <td>{{ $watika->ijraa_type }}</td>
+          <td>{{ $watika->date_receive }}</td>
+          <td>{{ $watika->taleb }}</td>
+          <td>{{ $watika->matlob }}</td>
+          <td>{{ $watika->creat_date }}</td>
+          <td>{{ $watika->ijraa_rs}}</td>
+          <td>{{ $watika->date_receive }}</td>
+          <td>{{ $watika->watika_up}}</td>
+          <td>{{ $watika->note }}</td>
          </tr>
+         @endforeach
          @endif
          </tbody>
         <tfoot>

@@ -35,6 +35,8 @@ Route::get('/success','App\Http\Controllers\MofawadController@success')->name('s
 
 Route::get('/search','App\Http\Controllers\MofawadController@search')->name('search');
 
+Route::post('/search','App\Http\Controllers\MofawadController@search')->name('search');
+
 Route::get('/ijraa','App\Http\Controllers\MofawadController@ijraa')->name('ijraa');
 
 

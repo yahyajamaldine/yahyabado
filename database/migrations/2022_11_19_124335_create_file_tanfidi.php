@@ -22,10 +22,10 @@ return new class extends Migration
             $table->string('taleb');
             $table->string('matlob');
             $table->date('date_creation');
-            $table->string('resume');
+            $table->string('resume')->nullable();
             $table->date('watika_reciev')->nullable();
-            $table->string('add_file');
-            $table->text('note');
+            $table->string('add_file')->nullable();
+            $table->text('note')->nullable();
             $table->timestamps();
         });
     }

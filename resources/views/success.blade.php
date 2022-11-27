@@ -64,7 +64,7 @@ max-width: 584px;
 
     setTimeout(()=>{
       window.location.href='/';
-    },2000)
+    },5000)
 
   }
   </script>

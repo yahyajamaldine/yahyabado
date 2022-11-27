@@ -56,9 +56,9 @@
                      @csrf 
                      <div class="input_field full-field ">
                         <label class="field-text"> اسم المستعمل</label>
-                        <input type="email" name="email" placeholder="اسم المستعمل" class="@error('email') error @enderror" value="{{ old('email') }}" required autocomplete="email" autofocus />
+                        <input type="text" name="username" placeholder="اسم المستعمل" class="@error('email') error @enderror" value="{{ old('username') }}" required autocomplete="email" autofocus />
                       </div>
-                      @error('email')
+                      @error('username')
                       <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                        </span>
@@ -66,7 +66,7 @@
 
                       <div class="input_field full-field ">
                         <label class="field-text"> كلمة السر</label>
-                        <input type="password" class="@error('password') error @enderror" name="password" placeholder="كلمة السر" required autocomplete="current-password"/>
+                        <input type="password" class="@error('password') error @enderror" name="password" placeholder="كلمة السر" value="{{ old('password') }} required autocomplete="current-password"/>
                       </div>
                       @error('password')
                                     <span class="invalid-feedback" role="alert">

@@ -18,13 +18,13 @@ return new class extends Migration
             $table->integer('Raqem');
             $table->string('ijraa_type');
             $table->date('date_receive');
-            $table->string('taleb_ijraa');
-            $table->string('matlob_d');
+            $table->string('taleb');
+            $table->string('matlob');
             $table->date('creat_date');
-            $table->string('ijraa_rs');
+            $table->string('ijraa_rs')->nullable();
             $table->date('watika_reciev')->nullable();
-            $table->string('watika_up');
-            $table->string('note');
+            $table->string('watika_up')->nullable();
+            $table->string('note')->nullable();
             $table->timestamps();
         });
     }
