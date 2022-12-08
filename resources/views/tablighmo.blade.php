@@ -453,7 +453,7 @@ div.form_wrapper {
     <div class="form_wrapper">
         <div class="form_container">
           <div class="title_container">
-            <h1>معلومات عن وثيقة (اضافة ملف تبليغ)</h1>
+            <h1>تكشيف الملف التبليغي رقم {{ $table->Raqem }} </h1>
           </div>
           <br/>
           <br/>
