@@ -463,17 +463,17 @@ div.form_wrapper {
                  @csrf
                 <div class="input_field full-field select_option">
                   <label class="field-text">الرقم الترتيبي </label>
-                  <input id="rakem" type="number" readonly name="raqem" value="{{ $id }}" required />
+                  <input id="rakem" type="number" readonly name="raqem" value="{{  $table->Raqem }}" required />
                 </div>
                 <div class="input_field full-field">
                     <label class="field-text">رقم القضية
                     </label>
                     <div id="input_holder">
-                     <input type="number" min="1" placeholder="الرقم"name="rakem_kad" required >
+                     <input type="number"  min="1" value="{{ $tablighramz[0]->rakem_kad  }}" placeholder="الرقم"name="rakem_kad" required >
                      /
-                     <input type="text" name="ramez_kad" placeholder="الرمز" required>
+                     <input type="text" value="{{ $tablighramz[0]->ramez_kad }}" name="ramez_kad" placeholder="الرمز" required>
                      /
-                     <input type="number" min="2022" name="year_kad" placeholder="السنة" requied>
+                     <input type="number" value="{{ $tablighramz[0]->year_kad }}" min="2022" name="year_kad" placeholder="السنة" requied>
                      <span>*</span>
                     </div>
                 </div>

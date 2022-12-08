@@ -94,7 +94,7 @@ mainpage.addEventListener('click',()=>{
                 <div class="input_field full-field">
                     <label class="field-text">تاريخ تسلم الاجراء
                     </label>
-                    <input type="date" name="date_receive" placeholder=" تاريخ تسلم الوثيقة مموضوع الاجراء" />
+                    <input type="date" name="date_receive" required placeholder=" تاريخ تسلم الوثيقة مموضوع الاجراء" />
                 </div>
                 <div class="input_field full-field">
                 <label class="field-text">طالب  الاجراء              </label>
@@ -103,15 +103,15 @@ mainpage.addEventListener('click',()=>{
                <div class="input_field full-field">
                 <label class="field-text">المطلوب ضده الاجراء  
                 </label>
-                <input type="text" name="matlob" placeholder=" المطلوب ضده "/>
+                <input type="text" name="matlob" placeholder=" المطلوب ضده " required/>
               </div>
               <div class="input_field full-field">
                 <label class="field-text">تاريخ انجاز الاجراء               </label>
-                <input type="date" name="date_creation" placeholder="" required />
+                <input type="date" name="date_creation" placeholder="" />
               </div>
               <div class="input_field full-field">
                 <label class="field-text">ملخص الاجراءات المنجزة                </label>
-                <input type="text" name="resume" placeholder=" ملخص الاجراءات المنجزة  " required />
+                <input type="text" name="resume" placeholder=" ملخص الاجراءات المنجزة  "/>
             </div>
               <div class="input_field full-field">
                 <label class="field-text">تاريخ تسليم الوثيقة

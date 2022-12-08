@@ -90,12 +90,12 @@ mainpage.addEventListener('click',()=>{
   background-color: #f5ba1a;
   color: white;
 }
-td.notfound{
+#file_result td.notfound{
     margin-top:50px;
     background-color: rgb(240, 231, 231);
-    text-align:right;
+    text-align:center;
     font-weight:bold;
-    letter-spacing: 1px;
+    letter-spacing: 0L5px;
 }
 
 #file_result tr.valid{
@@ -219,7 +219,7 @@ td.notfound{
             </thead>
             <tbody>
             @if(empty($tanfidi))
-            <tr><td class="notfound" colspan="15" >{{ $notfound }}</td></tr>
+            <tr><td class="notfound" colspan="6" >{{ $notfound }}</td></tr>
             @elseif($tanfidi && $tabletype == 'file_tanfidi')
             @foreach($tanfidi as $milaf)
             <tr class="{{ $coll[$loop->index] }}">
@@ -235,8 +235,8 @@ td.notfound{
             <tr class="{{ $coll[$loop->index] }}">
               <td>{{ $milaf->Raqem }}</td>
               <td>{{ $milaf->kad_type }}</td>
-               <td>{{ $milaf->taleb_lijra }}</td>
-               <td>{{ $milaf->naib }}</td>
+               <td>{{ $milaf->taleb }}</td>
+               <td>{{ $milaf->matlob }}</td>
                <td>{{ $milaf->date_receive }}</td>
              </tr>
              @endforeach
@@ -245,8 +245,8 @@ td.notfound{
             <tr class="{{ $coll[$loop->index] }}">
               <td>{{ $milaf->Raqem }}</td>
               <td>{{ $milaf->ijraa_type }}</td>
-               <td>{{ $milaf->taleb_ijraa }}</td>
-               <td>{{ $milaf->matlob_d }}</td>
+               <td>{{ $milaf->taleb }}</td>
+               <td>{{ $milaf->matlob }}</td>
                <td>{{ $milaf->date_receive }}</td>
              </tr>
              @endforeach

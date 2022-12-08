@@ -75,10 +75,14 @@
                         @enderror
  
                       <div class="sb-button">
-                        <input class="button" type="submit" value="دخول" />
+                        <input class="button" type="submit" value="تسجيل الدخول" />
                       </div>
 
+
                   </form>
+                  <div class="button-wrap">
+                        <a href="/register"><button class="button" id="register-btn" >إنشاء حساب</button></a>
+                      </div>
                 </div>
               </div>
         <div>

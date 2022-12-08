@@ -19,7 +19,7 @@
            height: 200px;
               }
           header#headapp{
-
+           
            height: 50px;
 
              }
@@ -105,19 +105,19 @@
   font-size:calc(0.75rem + 3px);
   width: 100%;
 }
+#file_result tr:nth-child(even){background-color: #f2f2f2;}
+
+#file_result tr:hover {background-color: #ddd;}
 
 #file_result td, #file_result th {
   border: 1px solid #ddd;
   text-align:center;
   letter-spacing: 1px;
-  padding: 8px;
 }
 
-#file_result tr:nth-child(even){background-color: #f2f2f2;}
-
-#file_result tr:hover {background-color: #ddd;}
-
 #file_result th {
+  padding-left:2px;
+  padding-right:4px;
   padding-top: 12px;
   text-align:right;
   padding-bottom: 12px;
@@ -133,6 +133,22 @@
     text-align:center;
     font-weight:bold;
     letter-spacing: 0.8px;
+}
+/**********Let's fix the input field */
+#file_result td{
+  padding-block:6px;
+  width:6%;
+}
+#file_result td:first-of-type{
+   width:5%;
+
+}
+#file_result td:nth-child(2){
+  padding-block:7px;
+  width:8%;
+}
+tr a{
+   color:#000000;
 }
 
 </style>
@@ -155,8 +171,7 @@
     mainpage.addEventListener('click',()=>{
       window.location.href='/search';
     })
-
-
+    
   }
   </script>
 @section('content')
@@ -270,11 +285,7 @@
               <th  scope="col">تاريخ تسلمها</th>
               <th  scope="col">اسم طالب الاجراء و من ينوب عنه</th>
               <th  scope="col">اسم المطلوب ضده الاجراء و من ينوب عنه</th>
-              <th  scope="col">تاريخ انجاز الاجراءات</th>
-              <th  scope="col">تاريخ ارجاع الوثيقة</th>
-              <th  scope="col">اضافة وثيقة</th>
-              <th  scope="col">اضافة اشعار</th>
-              <th  scope="col">ملاحظات</th>
+
          @elseif ($tabletype == 'Ijraa')
           <th  scope="col" >الرقم التسلسلي</th>
           <th  scope="col" >نوع الاجراء</th>
@@ -288,67 +299,74 @@
           <th  scope="col">ملاحظات</th>
           @endif
           </tr>
-
           </thead>
           <tbody>
           @if(empty($watika))
-            <tr><td class="notfound" colspan="15" >
+            <tr>
+             <td class="notfound" colspan="15" >
               {{ $notfound }} </td>
             </tr>
           @elseif($watika && $tabletype == 'file_tanfidi')
           @foreach($watika as $milaf)
-          <td>{{ $milaf->Raqem }}</td>
-          <td>{{ $milaf->date_receive }}</td>
-          <td>{{ $milaf->ijrae_type }}</td>
-          <td>{{ $milaf->marge_ref }}</td>
-          <td>{{ $milaf->taleb }}</td>
-          <td>{{ $milaf->matlob }}</td>
-          <td>{{ $milaf->date_creation }}</td>
-          <td>{{ $milaf->resume }}</td>
-          <td>{{ $milaf->watika_reciev }}</td>
-          <td>{{ $milaf->add_file }}</td>
-          <td>{{ $milaf->note }}</td>
+        <tr>
+          <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->Raqem }}</a></td>
+          <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->date_receive }}</a></td>
+          <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->ijrae_type }}</a></td>
+          @if (!empty($tablighramz))
+          <td lang='en' dir='ltr'>
+            <a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">
+          {{ $tablighramz[0]->year_kad }} /
+          {{ $tablighramz[0]->ramez_kad }} /
+           {{ $tablighramz[0]->rakem_kad }}
+            </a>
+          </td>
+          @endif
+          <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->taleb }}</a></td>
+          <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->matlob }}</a></td>
+          <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->date_creation }}</a></td>
+          <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->resume }}</a></td>
+          <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->watika_reciev }}</a></td>
+          <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->add_file }}</a></td>
+           <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->note }}</a></td>
          </tr>
           @endforeach
          @elseif($watika && $tabletype == 'filetablighi')
          @foreach($watika as $milaf)
           <tr>
-          <td>{{ $watika->Raqem }}</td>
+            <td><a id="link" target="_blank" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->Raqem }}</a></td>
           @if (!empty($tablighramz))
           <td lang='en' dir='ltr'>
+            <a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">
           {{ $tablighramz[0]->year_kad }} /
           {{ $tablighramz[0]->ramez_kad }} /
-           {{ $tablighramz[0]->rakem_kad }}
+          {{ $tablighramz[0]->rakem_kad }} 
+            </a>
           </td>
           @endif
-          <td>{{ $watika->kad_type }}</td>
-          <td>{{ $watika->jalsa_date }}</td>
-          <td>{{ $watika->it_source }}</td>
-          <td>{{ $watika->rakmoha_rakem}}</td>
-          <td>{{ $watika->kadiya_type }}</td>
-          <td>{{ $watika->date_receive}}</td>
-          <td>{{ $watika->taleb }}</td>
-          <td>{{ $watika->matlob }}</td>
-          <td>{{ $watika->date_ijraa }}</td>
-          <td>{{ $watika->watika_reciev }}</td>
-          <td>{{ $watika->watika }}</td>
-          <td>{{ $watika->add_notif}}</td>
-          <td>{{ $watika->note }}</td>
+          <td> <a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->kad_type }}</a></td>
+          <td> <a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->jalsa_date }}</a></td>
+          <td> <a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->source }}</a></td>
+          <td> <a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->rakmoha_rakem}}</a></td>
+          <td>  <a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->kadiya_type }}</a></td>
+          <td> <a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->date_receive}}</a></td>
+          <td> <a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->taleb }}</a></td>
+          <td>  <a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->matlob }}</a></td>
          </tr>
          @endforeach
+        </a>
          @elseif($watika && $tabletype == 'Ijraa')
          @foreach($watika as $milaf)
           <tr>
-          <td>{{ $watika->Raqem }}</td>
-          <td>{{ $watika->ijraa_type }}</td>
-          <td>{{ $watika->date_receive }}</td>
-          <td>{{ $watika->taleb }}</td>
-          <td>{{ $watika->matlob }}</td>
-          <td>{{ $watika->creat_date }}</td>
-          <td>{{ $watika->ijraa_rs}}</td>
-          <td>{{ $watika->date_receive }}</td>
-          <td>{{ $watika->watika_up}}</td>
-          <td>{{ $watika->note }}</td>
+            <td><a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->Raqem }}</a></td>
+          <td>{{ $milaf->ijraa_type }}</td>
+          <td>{{ $milaf->date_receive }}</td>
+          <td>{{ $milaf->taleb }}</td>
+          <td>{{ $milaf->matlob }}</td>
+          <td>{{ $milaf->creat_date }}</td>
+          <td>{{ $milaf->ijraa_rs}}</td>
+          <td>{{ $milaf->date_receive }}</td>
+          <td>{{ $milaf->watika_up}}</td>
+          <td>{{ $milaf->note }}</td>
          </tr>
          @endforeach
          @endif

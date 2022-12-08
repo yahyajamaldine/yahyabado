@@ -18,10 +18,9 @@ return new class extends Migration
             $table->string('Raqem');
             $table->date('date_receive');
             $table->string('ijrae_type');
-            $table->string('marge_ref');
-            $table->string('taleb');
-            $table->string('matlob');
-            $table->date('date_creation');
+            $table->string('taleb')->nullable();
+            $table->string('matlob')->nullable();
+            $table->date('date_creation')->nullable();
             $table->string('resume')->nullable();
             $table->date('watika_reciev')->nullable();
             $table->string('add_file')->nullable();

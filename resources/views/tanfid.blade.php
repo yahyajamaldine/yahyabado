@@ -102,8 +102,15 @@ div.form_wrapper {
                 </div>
                 <div class="input_field full-field">
                   <label class="field-text">مراجع الملف موضوع الاجراء                </label>
-                  <input type="text" name="marge_ref" placeholder=" مراجع الملف موضوع الاجراء " required />
-               </div>
+                  <div id="input_holder">
+                     <input type="number" min="1" placeholder="الرقم"name="rakem_kad" required >
+                     /
+                     <input type="text" name="ramez_kad" placeholder="الرمز" required>
+                     /
+                     <input type="number" min="2022" name="year_kad" placeholder="السنة" requied>
+                     <span>*</span>
+                  </div>
+                </div>
               <div class="input_field full-field">
                 <label class="field-text">الطالب                </label>
                 <input type="text" name="taleb" placeholder="الطالب " required />
@@ -115,11 +122,11 @@ div.form_wrapper {
               </div>
               <div class="input_field full-field">
                 <label class="field-text">تاريخ انجاز الاجراءات                </label>
-                <input type="date" name="date_creation" placeholder="" required />
+                <input type="date" name="date_creation" placeholder="" />
               </div>
               <div class="input_field full-field">
                 <label class="field-text">ملخص الاجراءات المنجزة                </label>
-                <input type="text" name="resume" placeholder=" ملخص الاجراءات المنجزة  " required />
+                <input type="text" name="resume" placeholder=" ملخص الاجراءات المنجزة  " />
             </div>
               <div class="input_field full-field">
                 <label class="field-text">تاريخ الارجاع الى كتابة الضبط
@@ -128,7 +135,7 @@ div.form_wrapper {
             </div>
               <div class="input_field full-field">
                 <label class="field-text" for="myfile"> اضافة وثيقة               </label>
-                <input type="file" id="myfile" name="add_file" required  placeholder="" />
+                <input type="file" id="myfile" name="add_file"  placeholder="" />
               </div>
               <div class="input_field full-field  ">
                 <label for="molahada "class="field-text"> ملاحظات</label>

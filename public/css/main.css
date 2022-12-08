@@ -180,12 +180,19 @@ textarea{
   border: 1px solid #f5ba1a;
   background: #fafafa;
 }
-.form_wrapper input[type=submit] {
+.button-wrap{
+  width: 100%;
+  text-align: center;
+}
+.form_wrapper .button-wrap button{
+  background: #c1c1bf;
+}
+.form_wrapper input[type=submit], .button-wrap button{
   background: #f5ba1a;
   height: 35px;
   line-height: 35px;
   border-radius: 6px;
-  width: 20%;
+  width: max-content;
   border: none;
   outline: none;
   cursor: pointer;
@@ -199,6 +206,8 @@ textarea{
   -ms-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
 }
+
+
 .form_wrapper input[type=submit]:hover {
   background: #e1a70a;
 }

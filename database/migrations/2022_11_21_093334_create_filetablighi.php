@@ -12,19 +12,21 @@ return new class extends Migration
      * @return void
      */
     public function up()
-    {
-        Schema::create('filetablighi', function (Blueprint $table) {
+       {
+    Schema::create('filetablighi', function (Blueprint $table) {
             $table->id();
             $table->integer('Raqem');
             $table->string('kad_type');
             $table->date('jalsa_date');
-            $table->string('it_source');
-            $table->integer('rakmoha_rakem');
-            $table->string('kadiya_type');
-            $table->date('date_receive');
-            $table->string('taleb');
-            $table->string('matlob');
-            $table->date('date_ijraa');
+            $table->string('source')->nullable();
+            $table->string('its_source')->nullable();
+            $table->string('exits_source')->nullable();
+            $table->integer('rakmoha_rakem')->nullable();
+            $table->string('kadiya_type')->nullable();
+            $table->date('date_receive')->nullable();
+            $table->string('taleb')->nullable();
+            $table->string('matlob')->nullable();
+            $table->date('date_ijraa')->nullable();
             $table->date('watika_reciev')->nullable();
             $table->string('watika')->nullable();
             $table->string('add_notif')->nullable();

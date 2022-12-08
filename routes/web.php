@@ -14,8 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-
-Auth::routes();
+Auth::routes(); 
 
 Route::get('/','App\Http\Controllers\MofawadController@search');
 
@@ -53,3 +52,8 @@ Route::get('/login','App\Http\Controllers\AuthViewController@login')->name('logi
 Route::post('/login','App\Http\Controllers\AuthViewController@loginCheck')->name('login.check');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/register','App\Http\Controllers\AuthViewController@register')->name('register');
+
+Route::get('/modi/{type}/{id}','App\Http\Controllers\MofawadController@modification')->name('modi');
+

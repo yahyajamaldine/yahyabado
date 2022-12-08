@@ -38,4 +38,10 @@ class AuthViewController extends Controller
         return redirect('/');
     }
 
+    
+    public function register()
+    {
+        return view('register');
+    }
+
 }
