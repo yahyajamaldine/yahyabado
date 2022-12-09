@@ -232,6 +232,7 @@ tr a{
      </header>
     </div>
     <form method="POST" action="{{ route('search') }}" class="container">
+      TEST Test
          @csrf
         <div class="search_block">
           <div class="searchform">
