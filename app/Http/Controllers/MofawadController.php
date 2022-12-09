@@ -89,6 +89,13 @@ class MofawadController extends Controller
                       ->whereColumn('filetablighi.id', 'fileTBnB.filetablighi_id');
             })->get();
 
+            $tablighramz=DB::table('fileTBnB')
+            ->whereExists(function ($query) {
+                $query->select('*')
+                      ->from('filetablighi')
+                      ->whereColumn('filetablighi.id', 'fileTBnB.filetablighi_id');
+            })->get();
+
             return view('search',['watika' => $file, 'tablexist' => $tablexist, 'tabletype' =>  $tabletype, 'tablighramz' => $tablighramz]);
          }
 
