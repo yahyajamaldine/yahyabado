@@ -193,6 +193,7 @@ textarea{
   line-height: 35px;
   border-radius: 6px;
   width: max-content;
+  padding-inline: 30px;
   border: none;
   outline: none;
   cursor: pointer;
@@ -206,6 +207,7 @@ textarea{
   -ms-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
 }
+
 
 
 .form_wrapper input[type=submit]:hover {

@@ -284,13 +284,47 @@ class MofawadController extends Controller
             ->whereExists(function ($query) {
                 $query->select('*')
                       ->from('filetablighi')
-                      ->whereColumn('filetablighi.id', 'fileTBnB.filetablighi_id');
+                      ->whereColumn('filetablighi.id','fileTBnB.filetablighi_id');
             })->get();
                 
                return view('tablighmo',[ "table" =>$table , "tablighramz" => $tablighramz ]);
           }
        
         }
+    }
+
+    public function moditabligh(Request $request){
+       
+        $filetablighi=filetablighi::find(request('id'));
+
+        $filetablighi->kad_type=request('kad_type');
+        $filetablighi->jalsa_date=request('jalsa_date');
+        $filetablighi->source=request('source');
+        $filetablighi->its_source=request('its_source');
+        $filetablighi->exits_source=request('exits_source');
+        $filetablighi->rakmoha_rakem=request('rakmoha_rakem');
+        $filetablighi->kadiya_type=request('kadiya_type');
+        $filetablighi->date_receive=request('date_receive');
+        $filetablighi->taleb=request('taleb_lijra');
+        $filetablighi->matlob=request('naib');
+        $filetablighi->date_ijraa=request('date_ijraa');
+        $filetablighi->watika_reciev=request('date_back');
+        $filetablighi->watika=request('watika');
+
+        if(!empty(request('watika'))){
+            $path = $request->file('watika')->store('files');
+        }
+        $filetablighi->add_notif=request('add_notif');
+        $filetablighi->note=request('note');
+        $filetablighi->save();
+
+        $fileTBnB=fileTBnB::where('filetablighi_id', $filetablighi->id)->first();
+        $fileTBnB->rakem_kad=request('rakem_kad');
+        $fileTBnB->ramez_kad=request('ramez_kad');
+        $fileTBnB->year_kad=request('year_kad');
+        $fileTBnB->save();
+
+        return redirect('search');
     }
 
     public function compute_search()

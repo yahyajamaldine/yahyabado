@@ -459,7 +459,7 @@ div.form_wrapper {
           <br/>
           <div class="row clearfix">
             <div class="">
-              <form  class="file_form" method="POST" action="{{ route('create_tabligh') }}">
+              <form  class="file_form" method="POST" action="{{ route('moditabligh', $table->Raqem) }}" enctype="multipart/form-data">
                  @csrf
                 <div class="input_field full-field select_option">
                   <label class="field-text">الرقم الترتيبي </label>
@@ -481,46 +481,47 @@ div.form_wrapper {
                     <label class="field-text">نوعها </label>
                     <div class="select_arrow" ></div>
                     <select name="kad_type">
-                      <option>... اختيار</option>
-                      <option value="مدني">مدني</option>
-                      <option value="جنحى">جنحى</option>
-                      <option value="تجاري">تجاري</option>
-                      <option value="اداري">اداري</option>
-                      <option value="استعجالي"> استعجالي</option>
+                      <option <?php if( $table->kad_type == "مدني"){ echo 'selected'; } ?> value="مدني">مدني</option>
+                      <option <?php if( $table->kad_type == "جنحى"){ echo 'selected'; } ?> value="جنحى">جنحى</option>
+                      <option <?php if( $table->kad_type == "تجاري"){ echo 'selected'; } ?> value="تجاري">تجاري</option>
+                      <option <?php if( $table->kad_type == "اداري"){ echo 'selected'; } ?> value="اداري">اداري</option>
+                      <option <?php if( $table->kad_type == "استعجالي"){ echo 'selected'; } ?> value="استعجالي"> استعجالي</option>
                     </select>
                 </div>
                 <div class="input_field full-field">
                   <label class="field-text">تاريخ الجلسة                </label>
-                  <input type="date" name="jalsa_date" placeholder="" required />
+                  <input type="date" value="{{ $table->jalsa_date }}" name="jalsa_date" placeholder="" required />
                </div>
               <div class="input_field full-field select_option">
                 <label class="field-text">مصدرها                </label>
                 <div class="select_arrow" ></div>
                     <select id="its_type" name="source">
                       <option>... اختيار</option>
-                      <option value="محاكم الإستئناف">محاكم الإستئناف</option>
-                      <option value="المحاكم الإبتدائية">المحاكم الإبتدائية</option>
-                      <option value="المحاكم التجارية">المحاكم التجارية</option>
-                      <option value="محاكم الإستئناف التجارية">محاكم الإستئناف التجارية</option>
-                      <option value="محاكم الإستئناف الإدارية">محاكم الإستئناف الإدارية</option>
-                      <option value="المحاكم الإدارية">المحاكم الإدارية</option>
+                      <option <?php if($table->source == "محاكم الإستئناف") { echo 'selected'; } ?> value="محاكم الإستئناف">محاكم الإستئناف</option>
+                      <option <?php if($table->source == "المحاكم الإبتدائية") { echo 'selected'; } ?> value="المحاكم الإبتدائية">المحاكم الإبتدائية</option>
+                      <option <?php if($table->source == "المحاكم التجارية") { echo 'selected'; } ?> value="المحاكم التجارية">المحاكم التجارية</option>
+                      <option <?php if($table->source == "محاكم الإستئناف التجارية") { echo 'selected'; } ?> value="محاكم الإستئناف التجارية">محاكم الإستئناف التجارية</option>
+                      <option <?php if($table->source == "محاكم الإستئناف الإدارية") { echo 'selected'; } ?> value="محاكم الإستئناف الإدارية">محاكم الإستئناف الإدارية</option>
+                      <option <?php if($table->source == "المحاكم الإدارية") { echo 'selected'; } ?> value="المحاكم الإدارية">المحاكم الإدارية</option>
 
                     </select>
               </div>
 
-              <div  id="source_holder"class="input_field full-field select_option hidden">
+              <div  id="source_holder"class="input_field full-field select_option @if(empty($table->its_source)) hidden @endif">
                 <label class="field-text">المحكمة
                 </label>
                 <div class="select_arrow" ></div>
-                <select id="its_source" name="its_source">             
+                <select id="its_source" name="its_source">
+                  <option value="{{ $table->its_source }}" selected >{{ $table->its_source }}</option>             
                 </select>
               </div>
 
-              <div  id="exsource_holder"class="input_field full-field select_option hidden">
+              <div  id="exsource_holder"class="input_field full-field select_option @if(empty($table->exits_source)) hidden @endif">
                 <label class="field-text">تحديد
                 </label>
                 <div class="select_arrow" ></div>
-                <select id="exits_source" name="exits_source">             
+                <select id="exits_source" name="exits_source">   
+                <option value="{{ $table->exits_source }}" selected >{{ $table->exits_source }}</option>          
                 </select>
               </div>
 
@@ -528,31 +529,31 @@ div.form_wrapper {
                <div class="input_field full-field">
                 <label class="field-text">رقمها ورقم حسابها
                 </label>
-                <input type="number" name="rakmoha_rakem" placeholder="رقمها" />
+                <input type="number" value="{{ $table->rakmoha_rakem }}" name="rakmoha_rakem" placeholder="رقمها" />
               </div>
               <div class="input_field full-field">
                 <label class="field-text">نوعها                </label>
-                <input type="text" name="kadiya_type" placeholder="نوعها" required />
+                <input type="text" value="{{ $table->kadiya_type }}" name="kadiya_type" placeholder="نوعها" required />
               </div>
               <div class="input_field full-field">
                 <label class="field-text"> تاريخ تسلمها                </label>
-                <input type="date" name="date_receive" placeholder=" تاريخ تسلمها"  required />
+                <input type="date" value="{{ $table->date_receive }}" name="date_receive" placeholder=" تاريخ تسلمها"  required />
             </div>
               <div class="input_field full-field">
                 <label class="field-text"> اسم طالب الاجراء و من ينوب عنه                </label>
-                <input type="text" name="taleb_lijra" placeholder=" طالب الاجراء و من ينوب عنه" required />
+                <input type="text" value="{{ $table->taleb }}" name="taleb_lijra" placeholder=" طالب الاجراء و من ينوب عنه" required />
               </div>
               <div class="input_field full-field  ">
                 <label class="field-text">اسم المطلوب ضده الاجراء و من ينوب عنه                </label>
-                <input type="text" name="naib" required placeholder=" اسم المطلوب ضده الاجراء و من ينوب عنه " />
+                <input type="text" value="{{ $table->matlob }}" name="naib" required placeholder=" اسم المطلوب ضده الاجراء و من ينوب عنه " />
               </div>
               <div class="input_field full-field">
                 <label class="field-text">تاريخ انجاز الاجراء                </label>
-                <input type="date" name="date_ijraa" placeholder="" />
+                <input type="date" value="{{ $table->date_ijraa }}" name="date_ijraa" placeholder="" />
             </div>
               <div class="input_field full-field">
                 <label class="field-text"> تاريخ ارجاع الوثيقة                </label>
-                <input type="date" name="date_back" placeholder=""  />
+                <input type="date"value="{{ $table->watika_reciev }}" name="date_back" placeholder=""  />
              </div>
               <div class="input_field full-field">
                 <label class="field-text" for="myfile"> اضافة وثيقة               </label>
@@ -564,13 +565,16 @@ div.form_wrapper {
               </div>
               <div class="input_field full-field">
                 <label for="molahada "class="field-text"> ملاحظات</label>
-                <textarea id="molahda" name="note" rows="4" cols="50"></textarea>
+                <textarea id="molahda" value="{{ $table->note }}" name="note" rows="4" cols="50"></textarea>
              </div>
                 <br/>
                 <div class="sb-button">
-                  <input class="button" type="submit" value="اضافة الوثيقة" />
+                  <input class="button" type="submit" value="تعديل" />
                 </div>
               </form>
+              <div class="button-wrap">
+                        <a href="/search"><button class="button" id="register-btn" >إلغاء</button></a>
+                      </div>
             </div>
           </div>
         </div>

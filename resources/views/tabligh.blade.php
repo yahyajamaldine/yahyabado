@@ -459,7 +459,7 @@ div.form_wrapper {
           <br/>
           <div class="row clearfix">
             <div class="">
-              <form  class="file_form" method="POST" action="{{ route('create_tabligh') }}">
+              <form  class="file_form" method="POST" action="{{ route('create_tabligh') }}" enctype="multipart/form-data">
                  @csrf
                 <div class="input_field full-field select_option">
                   <label class="field-text">الرقم الترتيبي </label>

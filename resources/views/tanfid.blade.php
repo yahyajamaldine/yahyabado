@@ -85,7 +85,7 @@ div.form_wrapper {
           <br/>
           <div class="row clearfix">
             <div class="">
-              <form class="file_form" method="POST" action="{{ route('create_tanfid') }}">
+              <form class="file_form" method="POST" enctype="multipart/form-data" action="{{ route('create_tanfid') }}">
               @csrf
                 <div class="input_field full-field select_option">
                   <label class="field-text">الرقم التسلسلي                </label>
