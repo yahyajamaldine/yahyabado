@@ -10,7 +10,10 @@
 
       <!-- Scripts -->
       <script src="{{ asset('js/dayjs.min.js') }}" defer></script>
-     
+      <script src="https://kit.fontawesome.com/59ebe041ca.js" crossorigin="anonymous"></script>
+
+      <link rel="stylesheet" href="{{ asset('notification/style.css') }}"></link>
+       <script src="{{ asset('notification/index.var.js') }}"></script>
       <link rel="stylesheet" href="{{ asset('css/main.css') }}">
     
     </head>

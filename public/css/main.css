@@ -474,7 +474,7 @@ outline: none;
 display: flex;
 flex: 100%;
 -webkit-tap-highlight-color: transparent;
-height: 34px;
+height: 43px;
 font-size: 17px;
 }
 .searchinput::placeholder{

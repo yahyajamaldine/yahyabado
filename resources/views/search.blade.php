@@ -151,6 +151,18 @@ tr a{
    color:#000000;
 }
 
+#file_result th {
+    text-align: center;
+}
+td svg{
+  width:20px;
+  height:20px;
+  padding-top: 5px;
+  cursor: pointer;
+  fill:#ef4444;
+}
+
+
 </style>
 <script type="text/javascript">
   onload=()=>{
@@ -171,6 +183,38 @@ tr a{
     mainpage.addEventListener('click',()=>{
       window.location.href='/search';
     })
+    
+    let notifier = new AWN() // where options is an object with your custom values
+    
+    @if (session('status'))
+    notifier.success(' {{ session('status') }} ');
+    @endif
+
+    @if(!empty($watika))
+      
+     let onCancel = () => {notifier.warning('تم إلغاء العملية')};
+
+    const Delet=document.querySelectorAll('.delete');
+     
+    Delet.forEach((item)=>{
+       item.addEventListener('click',function(event){
+        event.preventDefault();
+        const elem=this;
+        notifier.confirm(
+        'هل تريد إتمام العملية',
+        function () {  
+            elem.submit();
+        },
+         onCancel,
+         {
+         labels: {
+        confirm: `<b>حدف الملف رقم ${this.id}</b>`
+       }
+       }
+       )
+       })
+    })
+    @endif
     
   }
   </script>
@@ -273,6 +317,7 @@ tr a{
               <th  scope="col">تاريخ الارجاع الى كتابة الضبط</th>
               <th  scope="col">الوثيقة المضافة</th>
               <th  scope="col">ملاحظات</th>
+              <th  scope="col">حدف</th>
           @elseif ($tabletype == 'filetablighi')
           
               <th  scope="col" >الرقم الترتيبي</th>
@@ -285,7 +330,7 @@ tr a{
               <th  scope="col">تاريخ تسلمها</th>
               <th  scope="col">اسم طالب الاجراء و من ينوب عنه</th>
               <th  scope="col">اسم المطلوب ضده الاجراء و من ينوب عنه</th>
-
+              <th  scope="col">حدف</th>
          @elseif ($tabletype == 'Ijraa')
           <th  scope="col" >الرقم التسلسلي</th>
           <th  scope="col" >نوع الاجراء</th>
@@ -297,6 +342,7 @@ tr a{
           <th  scope="col">تاريخ تسليم الوثيقة</th>
           <th  scope="col">تحميل الوثيقة</th>
           <th  scope="col">ملاحظات</th>
+          <th  scope="col">حدف</th>
           @endif
           </tr>
           </thead>
@@ -327,7 +373,16 @@ tr a{
           <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->watika_reciev }}</a></td>
           <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->add_file }}</a></td>
            <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->note }}</a></td>
-         </tr>
+           <td>
+            <form class="delete" id="{{ $milaf->Raqem  }}" action="/delete/{{ $tabletype }}/{{$milaf->Raqem}}" method="POST">
+              @csrf
+              @method('DELETE')
+              <p><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                <path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/>
+              </svg></p>
+              </form>
+            </td>
+          </tr>
           @endforeach
          @elseif($watika && $tabletype == 'filetablighi')
          @foreach($watika as $milaf)
@@ -349,7 +404,16 @@ tr a{
           <td> <a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->date_receive}}</a></td>
           <td> <a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->taleb }}</a></td>
           <td>  <a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->matlob }}</a></td>
-         </tr>
+          <td>
+            <form class="delete" id="{{ $milaf->Raqem  }}" action="/delete/{{ $tabletype }}/{{$milaf->Raqem}}" method="POST">
+              @csrf
+              @method('DELETE')
+              <p><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                <path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/>
+              </svg></p>
+              </form>
+          </td>
+        </tr>
          @endforeach
         </a>
          @elseif($watika && $tabletype == 'Ijraa')
@@ -365,7 +429,16 @@ tr a{
           <td><a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->date_receive }}</a></td>
           <td><a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->watika_up}}</a></td>
           <td><a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->note }}</a></td>
-         </tr>
+          <td>
+            <form class="delete" id="{{ $milaf->Raqem  }}" action="/delete/{{ $tabletype }}/{{$milaf->Raqem}}" method="POST">
+              @csrf
+              @method('DELETE')
+              <p><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                <path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/>
+              </svg></p>
+              </form>
+          </td>
+        </tr>
          @endforeach
          @endif
          </tbody>

@@ -62,3 +62,5 @@ Route::post('/moditabligh/{id}','App\Http\Controllers\MofawadController@moditabl
 Route::post('/moditanfid/{id}','App\Http\Controllers\MofawadController@moditanfid')->name('moditanfid');
 
 Route::post('/modiijraa/{id}','App\Http\Controllers\MofawadController@modiijraa')->name('modiijraa');
+
+Route::delete('/delete/{type}/{id}','App\Http\Controllers\MofawadController@delete')->name('delete');

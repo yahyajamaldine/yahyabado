@@ -270,35 +270,33 @@ class MofawadController extends Controller
 
 
     public function modification(Request $reques) {
-        if(!empty(request('type')) && !empty(request('id'))){
-          
-            $check = Str::contains(request('type'), ['filetablighi', 'file_tanfidi','Ijraa']);
 
-        if($check){
-
+           try {
+    
             $table=DB::table(request('type'))->find(request('id'));
-          if(request('type')=='filetablighi'){
+
+            if(request('type')=='filetablighi'){
                $ramz = json_decode($table->ramz);
                return view('tablighmo',[ "table" =>$table, 'ramz' => $ramz ]);
-          }
+            }
 
-          if(request('type')=='file_tanfidi'){
+            if(request('type')=='file_tanfidi'){
             $ramz = json_decode($table->ramz);
             return view('tanfidmo',[ "table" =>$table, 'ramz' => $ramz ]);
-          }
-          if(request('type')=='Ijraa'){
+             }
+            if(request('type')=='Ijraa'){
             return view('ijraamo',[ "table" =>$table ]);
-          } 
+             } 
 
            }
-           else{
+
+           catch (\Exception $e) {
+
             return redirect('search');
-           }
+    
+            }
+
           }
-        else{
-            return redirect('search');
-          }
-    }
 
     public function moditabligh(Request $request){
        
@@ -328,8 +326,8 @@ class MofawadController extends Controller
         $filetablighi->add_notif=request('add_notif');
         $filetablighi->note=request('note');
         $filetablighi->save();
-
-        return redirect('search');
+        
+        return redirect()->route('search', ['findmilaf' => request('id'), 'wantedkind' => 'filetablighi'])->with('status','لفد تم تعديل الملف الخاص بكم');
     }
 
     
@@ -361,7 +359,8 @@ class MofawadController extends Controller
             }
         $file_tanfidi->save();
 
-        return redirect('search');
+        return redirect()->route('search', ['findmilaf' => request('id'), 'wantedkind' => 'file_tanfidi'])->with('status','لفد تم تعديل الملف الخاص بكم');
+
     }
 
       public function modiijraa(Request $request){
@@ -381,9 +380,16 @@ class MofawadController extends Controller
         $Ijraa->note=request('note');
         $Ijraa->save();
 
-        return redirect('search');
+        return redirect()->route('search', ['findmilaf' => request('id'), 'wantedkind' => 'Ijraa'])->with('status','لفد تم تعديل الملف الخاص بكم');
+  
     
       } 
+
+      public function delete ($id){
+        DB::table(request('type'))->where('id', '=',request('id'))->delete();
+
+        return redirect('/search')->with('status','لفد تم حدف الملف ');
+      }
 
     public function compute_search()
     {
