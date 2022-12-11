@@ -8,11 +8,7 @@ use Carbon\Carbon;
 
 use App\Models\file_tanfidi;
 
-use App\Models\fileTFnB;
-
 use App\Models\filetablighi;
-
-use App\Models\fileTBnB;
 
 use App\Models\Ijraa;
 
@@ -29,7 +25,7 @@ class MofawadController extends Controller
     //
   
     public function __construct(){
-        $this->middleware('auth');
+        /*$this->middleware('auth');*/
       }
 
     public function index() {
@@ -58,7 +54,7 @@ class MofawadController extends Controller
         ->orWhere('taleb','like' ,'%'.request('findmilaf').'%')
         ->orWhere('matlob','like' ,'%'.request('findmilaf').'%')
         ->get();
-
+         
         $tablexist=true;
         $tabletype=request('wantedkind');
         if(DB::table(request('wantedkind'))
@@ -67,39 +63,7 @@ class MofawadController extends Controller
         ->orWhere('matlob','like' ,'%'.request('findmilaf').'%')
         ->exists()){
 
-         
-        if( $tabletype == 'file_tanfidi'){
-
-            $tablighramz=DB::table('fileTFnB')
-            ->whereExists(function ($query) {
-                $query->select('*')
-                      ->from('file_tanfidi')
-                      ->whereColumn('file_tanfidi.id', 'fileTFnB.file_tanfidi_id');
-            })->get();
-
-            return view('search',['watika' => $file, 'tablexist' => $tablexist, 'tabletype' =>  $tabletype, 'tablighramz' => $tablighramz]);
-         }
-
-         elseif( $tabletype == 'filetablighi'){
-
-            $tablighramz=DB::table('fileTBnB')
-            ->whereExists(function ($query) {
-                $query->select('*')
-                      ->from('filetablighi')
-                      ->whereColumn('filetablighi.id', 'fileTBnB.filetablighi_id');
-            })->get();
-
-            $tablighramz=DB::table('fileTBnB')
-            ->whereExists(function ($query) {
-                $query->select('*')
-                      ->from('filetablighi')
-                      ->whereColumn('filetablighi.id', 'fileTBnB.filetablighi_id');
-            })->get();
-
-            return view('search',['watika' => $file, 'tablexist' => $tablexist, 'tabletype' =>  $tabletype, 'tablighramz' => $tablighramz]);
-         }
-
-        return view('search',['watika' => $file, 'tablexist' => $tablexist, 'tabletype' =>  $tabletype]);
+        return view('search',['watika' => $file ,'tablexist' => $tablexist, 'tabletype' =>  $tabletype]);
         }
 
 
@@ -134,9 +98,17 @@ class MofawadController extends Controller
        * 
        */
     public function create_tanfid(Request $request) {
-    
+
+        $file_tanfidiID=DB::table('file_tanfidi')->latest()->first();
         $file_tanfidi=new file_tanfidi();
-        $file_tanfidi->Raqem=request('Raqem');
+
+        if(!empty($file_tanfidiID)){
+            $file_tanfidi->Raqem=($file_tanfidiID->id)+1;
+        }
+        else{
+            $file_tanfidi->Raqem=1;
+            
+        }
         $file_tanfidi->date_receive=request('date_receive');
         $file_tanfidi->ijrae_type=request('ijrae_type');
         $file_tanfidi->taleb=request('taleb');
@@ -146,25 +118,38 @@ class MofawadController extends Controller
         $file_tanfidi->watika_reciev=request('date_back');
         $file_tanfidi->add_file=request('add_file');
         $file_tanfidi->note=request('note');
+
+        $ramz = $file_tanfidi->ramz;
+ 
+        $ramz['rakem_kad'] = request('rakem_kad');
+
+        $ramz['ramez_kad'] = request('ramez_kad');
+
+        $ramz['year_kad'] = request('year_kad');
+        
+        $file_tanfidi->ramz= $ramz;
+
         if(!empty(request('file'))){
             $path = $request->file('add_file')->store('files');
             }
         $file_tanfidi->save();
-          /****Since we have a value that's combined we are going to create a table for it */
-          $fileTFnB=new fileTFnB();
-          $fileTFnB->rakem_kad=request('rakem_kad');
-          $fileTFnB->ramez_kad=request('ramez_kad');
-          $fileTFnB->year_kad=request('year_kad');
-          $fileTFnB->file_tanfidi_id=$file_tanfidi->id;
-          $fileTFnB->save();
+     
 
         return redirect()->route('success',[ 'msg' => " لقد تم انشاء ملفكم برقم ".$file_tanfidi->Raqem."  سيتم ارجاعمك الى الصفحة الرئيسية"]);
     } 
 
     public function create_tabligh(Request $request) {
-    
+
+        $filetablighiID=DB::table('filetablighi')->latest()->first();
         $filetablighi=new filetablighi();
-        $filetablighi->Raqem=request('raqem');
+
+        if(!empty($filetablighiID)){
+            $filetablighi->Raqem=($filetablighiID->id)+1;
+        }
+        else{
+            $filetablighi->Raqem=1;
+            
+        }
         $filetablighi->kad_type=request('kad_type');
         $filetablighi->jalsa_date=request('jalsa_date');
         $filetablighi->source=request('source');
@@ -184,15 +169,18 @@ class MofawadController extends Controller
         }
         $filetablighi->add_notif=request('add_notif');
         $filetablighi->note=request('note');
+        
+        $ramz = $filetablighi->ramz;
+ 
+        $ramz['rakem_kad'] = request('rakem_kad');
+
+        $ramz['ramez_kad'] = request('ramez_kad');
+
+        $ramz['year_kad'] = request('year_kad');
+        
+        $filetablighi->ramz= $ramz;
+        
         $filetablighi->save();
-     
-        /****Since we have a value that's combined we are going to create a table for it */
-        $fileTBnB=new fileTBnB();
-        $fileTBnB->rakem_kad=request('rakem_kad');
-        $fileTBnB->ramez_kad=request('ramez_kad');
-        $fileTBnB->year_kad=request('year_kad');
-        $fileTBnB->filetablighi_id=$filetablighi->id;
-        $fileTBnB->save();
 
         return redirect()->route('success',[ 'msg' => " لقد تم انشاء ملفكم برقم ".$filetablighi->Raqem."  سيتم ارجاعمك الى الصفحة الرئيسية"]);
     } 
@@ -283,27 +271,43 @@ class MofawadController extends Controller
 
     public function modification(Request $reques) {
         if(!empty(request('type')) && !empty(request('id'))){
+          
+            $check = Str::contains(request('type'), ['filetablighi', 'file_tanfidi','Ijraa']);
+
+        if($check){
 
             $table=DB::table(request('type'))->find(request('id'));
-            
           if(request('type')=='filetablighi'){
-            $tablighramz=DB::table('fileTBnB')
-            ->whereExists(function ($query) {
-                $query->select('*')
-                      ->from('filetablighi')
-                      ->whereColumn('filetablighi.id','fileTBnB.filetablighi_id');
-            })->get();
-                
-               return view('tablighmo',[ "table" =>$table , "tablighramz" => $tablighramz ]);
+               $ramz = json_decode($table->ramz);
+               return view('tablighmo',[ "table" =>$table, 'ramz' => $ramz ]);
           }
-       
-        }
+
+          if(request('type')=='file_tanfidi'){
+            $ramz = json_decode($table->ramz);
+            return view('tanfidmo',[ "table" =>$table, 'ramz' => $ramz ]);
+          }
+          if(request('type')=='Ijraa'){
+            return view('ijraamo',[ "table" =>$table ]);
+          } 
+
+           }
+           else{
+            return redirect('search');
+           }
+          }
+        else{
+            return redirect('search');
+          }
     }
 
     public function moditabligh(Request $request){
        
         $filetablighi=filetablighi::find(request('id'));
-
+        $ramz = $filetablighi->ramz;
+        $ramz['rakem_kad'] = request('rakem_kad');
+        $ramz['ramez_kad'] = request('ramez_kad');
+        $ramz['year_kad'] = request('year_kad');
+        $filetablighi->ramz= $ramz;
         $filetablighi->kad_type=request('kad_type');
         $filetablighi->jalsa_date=request('jalsa_date');
         $filetablighi->source=request('source');
@@ -325,14 +329,61 @@ class MofawadController extends Controller
         $filetablighi->note=request('note');
         $filetablighi->save();
 
-        $fileTBnB=fileTBnB::where('filetablighi_id', $filetablighi->id)->first();
-        $fileTBnB->rakem_kad=request('rakem_kad');
-        $fileTBnB->ramez_kad=request('ramez_kad');
-        $fileTBnB->year_kad=request('year_kad');
-        $fileTBnB->save();
+        return redirect('search');
+    }
+
+    
+    public function moditanfid(Request $request){
+       
+        $file_tanfidi=file_tanfidi::find(request('id'));
+        $file_tanfidi->date_receive=request('date_receive');
+        $file_tanfidi->ijrae_type=request('ijrae_type');
+        $file_tanfidi->taleb=request('taleb');
+        $file_tanfidi->matlob=request('matlob');
+        $file_tanfidi->date_creation=request('date_creation');
+        $file_tanfidi->resume=request('resume');
+        $file_tanfidi->watika_reciev=request('date_back');
+        $file_tanfidi->add_file=request('add_file');
+        $file_tanfidi->note=request('note');
+
+        $ramz = $file_tanfidi->ramz;
+ 
+        $ramz['rakem_kad'] = request('rakem_kad');
+
+        $ramz['ramez_kad'] = request('ramez_kad');
+
+        $ramz['year_kad'] = request('year_kad');
+        
+        $file_tanfidi->ramz= $ramz;
+
+        if(!empty(request('file'))){
+            $path = $request->file('add_file')->store('files');
+            }
+        $file_tanfidi->save();
 
         return redirect('search');
     }
+
+      public function modiijraa(Request $request){
+
+        $Ijraa=Ijraa::find(request('id'));
+        $Ijraa->ijraa_type=request('ijraa_type');
+        $Ijraa->date_receive=request('date_receive');
+        $Ijraa->taleb=request('taleb');
+        $Ijraa->matlob=request('matlob');
+        $Ijraa->creat_date=request('date_creation');
+        $Ijraa->ijraa_rs=request('resume');
+        $Ijraa->watika_reciev=request('watika_r');
+        $Ijraa->watika_up=request('file');
+        if(!empty(request('file'))){
+        $path = $request->file('file')->store('files');
+        }
+        $Ijraa->note=request('note');
+        $Ijraa->save();
+
+        return redirect('search');
+    
+      } 
 
     public function compute_search()
     {

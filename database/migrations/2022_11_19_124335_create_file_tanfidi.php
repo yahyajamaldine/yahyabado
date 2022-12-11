@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('file_tanfidi', function (Blueprint $table) {
             $table->id();
             $table->string('Raqem');
+            $table->string('ramz');
             $table->date('date_receive');
             $table->string('ijrae_type');
             $table->string('taleb')->nullable();

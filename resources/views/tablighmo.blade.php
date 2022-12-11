@@ -469,11 +469,11 @@ div.form_wrapper {
                     <label class="field-text">رقم القضية
                     </label>
                     <div id="input_holder">
-                     <input type="number"  min="1" value="{{ $tablighramz[0]->rakem_kad  }}" placeholder="الرقم"name="rakem_kad" required >
+                     <input type="number"  min="1" value="{{ $ramz->rakem_kad  }}" placeholder="الرقم"name="rakem_kad" required >
                      /
-                     <input type="text" value="{{ $tablighramz[0]->ramez_kad }}" name="ramez_kad" placeholder="الرمز" required>
+                     <input type="text" value="{{ $ramz->ramez_kad }}" name="ramez_kad" placeholder="الرمز" required>
                      /
-                     <input type="number" value="{{ $tablighramz[0]->year_kad }}" min="2022" name="year_kad" placeholder="السنة" requied>
+                     <input type="number" value="{{ $ramz->year_kad }}" min="2022" name="year_kad" placeholder="السنة" requied>
                      <span>*</span>
                     </div>
                 </div>

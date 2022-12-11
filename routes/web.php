@@ -58,3 +58,7 @@ Route::get('/register','App\Http\Controllers\AuthViewController@register')->name
 Route::get('/modi/{type}/{id}','App\Http\Controllers\MofawadController@modification')->name('modi');
 
 Route::post('/moditabligh/{id}','App\Http\Controllers\MofawadController@moditabligh')->name('moditabligh');
+
+Route::post('/moditanfid/{id}','App\Http\Controllers\MofawadController@moditanfid')->name('moditanfid');
+
+Route::post('/modiijraa/{id}','App\Http\Controllers\MofawadController@modiijraa')->name('modiijraa');

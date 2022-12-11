@@ -232,7 +232,6 @@ tr a{
      </header>
     </div>
     <form method="POST" action="{{ route('search') }}" class="container">
-      TEST Test
          @csrf
         <div class="search_block">
           <div class="searchform">
@@ -313,15 +312,14 @@ tr a{
           <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->Raqem }}</a></td>
           <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->date_receive }}</a></td>
           <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->ijrae_type }}</a></td>
-          @if (!empty($tablighramz))
           <td lang='en' dir='ltr'>
             <a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">
-          {{ $tablighramz[0]->year_kad }} /
-          {{ $tablighramz[0]->ramez_kad }} /
-           {{ $tablighramz[0]->rakem_kad }}
+            @php
+             $ramz = json_decode($milaf->ramz);
+             echo $ramz->year_kad ." / ". $ramz->ramez_kad ." / ".$ramz->rakem_kad;
+            @endphp 
             </a>
           </td>
-          @endif
           <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->taleb }}</a></td>
           <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->matlob }}</a></td>
           <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->date_creation }}</a></td>
@@ -335,15 +333,14 @@ tr a{
          @foreach($watika as $milaf)
           <tr>
             <td><a id="link" target="_blank" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->Raqem }}</a></td>
-          @if (!empty($tablighramz))
           <td lang='en' dir='ltr'>
             <a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">
-          {{ $tablighramz[0]->year_kad }} /
-          {{ $tablighramz[0]->ramez_kad }} /
-          {{ $tablighramz[0]->rakem_kad }} 
+            @php
+             $ramz = json_decode($milaf->ramz);
+             echo $ramz->year_kad ." / ". $ramz->ramez_kad ." / ".$ramz->rakem_kad;
+            @endphp 
             </a>
           </td>
-          @endif
           <td> <a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->kad_type }}</a></td>
           <td> <a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->jalsa_date }}</a></td>
           <td> <a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->source }}</a></td>
@@ -359,15 +356,15 @@ tr a{
          @foreach($watika as $milaf)
           <tr>
             <td><a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->Raqem }}</a></td>
-          <td>{{ $milaf->ijraa_type }}</td>
-          <td>{{ $milaf->date_receive }}</td>
-          <td>{{ $milaf->taleb }}</td>
-          <td>{{ $milaf->matlob }}</td>
-          <td>{{ $milaf->creat_date }}</td>
-          <td>{{ $milaf->ijraa_rs}}</td>
-          <td>{{ $milaf->date_receive }}</td>
-          <td>{{ $milaf->watika_up}}</td>
-          <td>{{ $milaf->note }}</td>
+          <td><a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->ijraa_type }}</a></td>
+          <td><a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->date_receive }}</a></td>
+          <td><a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->taleb }}</a></td>
+          <td><a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->matlob }}<a></td>
+          <td><a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->creat_date }}</a></td>
+          <td><a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->ijraa_rs}}</a></td>
+          <td><a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->date_receive }}</a></td>
+          <td><a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->watika_up}}</a></td>
+          <td><a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->note }}</a></td>
          </tr>
          @endforeach
          @endif

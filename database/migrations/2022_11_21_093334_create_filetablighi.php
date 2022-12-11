@@ -16,6 +16,7 @@ return new class extends Migration
     Schema::create('filetablighi', function (Blueprint $table) {
             $table->id();
             $table->integer('Raqem');
+            $table->string('ramz');
             $table->string('kad_type');
             $table->date('jalsa_date');
             $table->string('source')->nullable();
