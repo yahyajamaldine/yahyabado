@@ -1,7 +1,153 @@
 @extends('layout.app')
+
+<script type="text/javascript" src="{{ asset('js/sheetjs/xlsx.js') }}" ></script>
 <script type="text/javascript">
  onload=()=>{
+  
+  const Getfile = async ( id, datakind ) => {
+  /* fetch JSON data and parse */
+  let raw_data, worksheet, workbook;
+    
+    const ftch = await fetch('/xls', {method: 'POST', headers: { 'Content-Type': 'application/json',  'X-CSRF-TOKEN': '{{ csrf_token() }}' }, body: JSON.stringify({"id": id, "type": datakind }) })
+    .then(async (response) => {
+      if (response.status === 200) {
+        raw_data = await response.json();
+      } else {
+        throw new Error('Something went wrong on API server!');
+      }
+    })
+    .then((response) => {
+      console.debug(response);
+      // …
+    }).catch((error) => {
+      console.error(error);
+    })
+
+  /* flatten objects */
+   if(datakind=='file_tanfidi'){
+  const rows = [raw_data].map(row => ({
+     'الرقم التسلسلي':row.table.Raqem,
+     'تاريخ تسلم الوثيقة موضوع الاجراء':row.table.date_receive,
+     'نوع الاجراء':row.table.taleb,
+     'مراجع الملف موضوع الاجراء':`${row.ramz.rakem_kad}'/'${row.ramz.ramez_kad}'/'${row.ramz.year_kad}`,
+     'الطالب':row.table.taleb,
+     'المطلوب ضده':row.table.matlob,
+     'تاريخ انجاز الاجراءات':row.table.date_creation,
+     'تاريخ الارجاع الى كتابة الضبط':row.table.watika_reciev,
+     'اضافة وثيقة': '',
+     'ملاحظات':row.table.note,
+  }));
+
+  /* generate worksheet and workbook */
+   worksheet = XLSX.utils.json_to_sheet(rows);
+   workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "ملف تنفيدي");
+
+  /* fix headers */
+  XLSX.utils.sheet_add_aoa(worksheet, [['الرقم التسلسلي',
+     'تاريخ تسلم الوثيقة موضوع الاجراء',
+     'نوع الاجراء',
+     'مراجع الملف موضوع الاجراء',
+     'الطالب',
+     'المطلوب ضده',
+     'تاريخ انجاز الاجراءات',
+     'تاريخ الارجاع الى كتابة الضبط',
+     'اضافة وثيقة',
+     'ملاحظات']], { origin: "A1" });
+
+   }
+
+   if(datakind=='filetablighi'){
+  const rows = [raw_data].map(row => ({
+    'الرقم الترتيبي':row.table.Raqem,
+     'رقم القضية':`${row.ramz.rakem_kad}'/'${row.ramz.ramez_kad}'/'${row.ramz.year_kad}`,
+     'نوعها':row.table.kad_type,
+     'تاريخ الجلسة':row.table.jalsa_date,
+     'مصدرها':row.table.source,
+      'المحكمة': row.table.its_source ,
+       'تحديد': row.table.exits_sourcee ? row.table.exits_sourcee: "",
+     'رقمها ورقم حسابها':row.table.rakmoha_rakem,
+     'نوعها':row.table.kadiya_type,
+     'تاريخ تسلمها':row.table.date_receive,
+     'اسم طالب الاجراء و من ينوب عنه': row.table.taleb,
+      'اسم المطلوب ضده الاجراء و من ينوب عنه': row.table.matlob,
+      'تاريخ انجاز الاجراء': row.table.date_ijraa,
+      'تاريخ ارجاع الوثيقة': row.table.watika_reciev,
+     'ملاحظات':row.table.note,
+  }));
+
+  
+  /* generate worksheet and workbook */
+  worksheet = XLSX.utils.json_to_sheet(rows);
+   workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "ملف تبليغى");
+
+  /* fix headers */
+  XLSX.utils.sheet_add_aoa(worksheet, [[
+  'الرقم الترتيبي',
+     'رقم القضية',
+     'نوعها',
+     'تاريخ الجلسة',
+     'مصدرها',
+      'المحكمة',
+       'تحديد',
+     'رقمها ورقم حسابها',
+     'نوعها',
+     'تاريخ تسلمها',
+     'اسم طالب الاجراء و من ينوب عنه',
+      'اسم المطلوب ضده الاجراء و من ينوب عنه',
+      'تاريخ انجاز الاجراء',
+      'تاريخ ارجاع الوثيقة',
+     'ملاحظات',
+
+  ]], { origin: "A1" });
+   }
+
+   if(datakind=='Ijraa'){
+  const rows = [raw_data].map(row => ({
+    'الرقم التسلسلي':row.table.Raqem,
+     'نوع الاجراء':row.table.ijraa_type,
+     'تاريخ تسلم الاجراء':row.table.date_receive,
+     'طالب الاجراء':row.table.taleb,
+     'المطلوب ضده الاجراء':row.table.matlob,
+     'تاريخ انجاز الاجراء':row.table.creat_date,
+     'ملخص الاجراءات المنجزة':row.table.ijraa_rs,
+     'تاريخ تسليم الوثيقة':row.table.watika_reciev,
+     'ملاحظات':row.table.note,
+  }));
+
+  
+  /* generate worksheet and workbook */
+  worksheet = XLSX.utils.json_to_sheet(rows);
+   workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "إجراء");
+
+  /* fix headers */
+  XLSX.utils.sheet_add_aoa(worksheet, [['الرقم التسلسلي',
+     'نوع الاجراء',
+     'تاريخ تسلم الاجراء',
+     'طالب الاجراء',
+     'المطلوب ضده الاجراء',
+     'تاريخ انجاز الاجراء',
+     'ملخص الاجراءات المنجزة',
+     'تاريخ تسليم الوثيقة',
+     'ملاحظات']], { origin: "A1" });
+   }
+
+  /* create an XLSX file and try to save to Presidents.xlsx */
+  XLSX.writeFile(workbook, `${datakind}-${id}.xlsx`, { compression: true });
+};
+
   const mainpage= document.getElementById('mainpage');
+
+  const xls = document.querySelectorAll('#xls');
+
+xls.forEach(item=>{
+ item.addEventListener('click',async ()=>{
+           Getfile(item.className, item.getAttribute('data-kind'))
+ })
+
+})
 
 mainpage.addEventListener('click',()=>{
   window.location.href='/search';
@@ -75,17 +221,22 @@ mainpage.addEventListener('click',()=>{
 
 #file_result td, #file_result th {
   border: 1px solid #ddd;
-  text-align:right;
+  text-align:center;
   padding: 8px;
+
 }
 
-#file_result tr:nth-child(even){background-color: #f2f2f2;}
+#file_result tr:nth-child(even){background-color: #f2f2f2;
+}
+
+#file_result  tr:nth-child(even) a{
+ color:black;
+}
 
 #file_result tr:hover {background-color: #ddd;}
 
 #file_result th {
   padding-top: 12px;
-  text-align:right;
   padding-bottom: 12px;
   background-color: #f5ba1a;
   color: white;
@@ -107,6 +258,13 @@ mainpage.addEventListener('click',()=>{
   color:white;
 }
 
+#xls svg {
+  width:20px;
+  height:20px;
+  padding-top: 5px;
+  cursor: pointer;
+  fill:black;
+}
 </style>
 @section('content')
 
@@ -215,6 +373,7 @@ mainpage.addEventListener('click',()=>{
               <th  scope="col">الطالب</th>
               <th  scope="col">المطلوب ضده</th>
               <th  scope="col">تاريخ تسلم الوثيقة </th>
+              <th  scope="col">تحميل</th>
             </tr>
             </thead>
             <tbody>
@@ -223,32 +382,35 @@ mainpage.addEventListener('click',()=>{
             @elseif($tanfidi && $tabletype == 'file_tanfidi')
             @foreach($tanfidi as $milaf)
             <tr class="{{ $coll[$loop->index] }}">
-              <td>{{ $milaf->Raqem }}</td>
-              <td>{{ $milaf->ijrae_type }}</td>
-               <td>{{ $milaf->taleb }}</td>
-               <td>{{ $milaf->matlob }}</td>
-               <td>{{ $milaf->date_receive }}</td>
-             </tr>
+               <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->Raqem }}</a></td>
+          <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->ijrae_type }}</a></td>
+          <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->taleb }}</a></td>
+          <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->matlob }}</a></td>
+          <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->date_receive }}</a></td>
+           <td id="xls"  class="{{ $milaf->Raqem }}"  data-kind="{{ $tabletype }}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M365.3 93.38l-74.63-74.64C278.6 6.742 262.3 0 245.4 0H64C28.65 0 0 28.65 0 64l.0065 384c0 35.34 28.65 64 64 64H320c35.2 0 64-28.8 64-64V138.6C384 121.7 377.3 105.4 365.3 93.38zM336 448c0 8.836-7.164 16-16 16H64.02c-8.838 0-16-7.164-16-16L48 64.13c0-8.836 7.164-16 16-16h160L224 128c0 17.67 14.33 32 32 32h79.1V448zM229.1 233.3L192 280.9L154.9 233.3C146.8 222.8 131.8 220.9 121.3 229.1C110.8 237.2 108.9 252.3 117.1 262.8L161.6 320l-44.53 57.25c-8.156 10.47-6.25 25.56 4.188 33.69C125.7 414.3 130.8 416 135.1 416c7.156 0 14.25-3.188 18.97-9.25L192 359.1l37.06 47.65C233.8 412.8 240.9 416 248 416c5.125 0 10.31-1.656 14.72-5.062c10.44-8.125 12.34-23.22 4.188-33.69L222.4 320l44.53-57.25c8.156-10.47 6.25-25.56-4.188-33.69C252.2 220.9 237.2 222.8 229.1 233.3z"/></svg></td>    
+          </tr>
              @endforeach
             @elseif($tanfidi && $tabletype == 'filetablighi')
             @foreach($tanfidi as $milaf)
             <tr class="{{ $coll[$loop->index] }}">
-              <td>{{ $milaf->Raqem }}</td>
-              <td>{{ $milaf->kad_type }}</td>
-               <td>{{ $milaf->taleb }}</td>
-               <td>{{ $milaf->matlob }}</td>
-               <td>{{ $milaf->date_receive }}</td>
-             </tr>
+               <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->Raqem }}</a></td>
+          <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->kad_type }}</a></td>
+          <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->taleb }}</a></td>
+          <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->matlob }}</a></td>
+          <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->date_receive }}</a></td>
+          <td id="xls"  class="{{ $milaf->Raqem }}"  data-kind="{{ $tabletype }}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M365.3 93.38l-74.63-74.64C278.6 6.742 262.3 0 245.4 0H64C28.65 0 0 28.65 0 64l.0065 384c0 35.34 28.65 64 64 64H320c35.2 0 64-28.8 64-64V138.6C384 121.7 377.3 105.4 365.3 93.38zM336 448c0 8.836-7.164 16-16 16H64.02c-8.838 0-16-7.164-16-16L48 64.13c0-8.836 7.164-16 16-16h160L224 128c0 17.67 14.33 32 32 32h79.1V448zM229.1 233.3L192 280.9L154.9 233.3C146.8 222.8 131.8 220.9 121.3 229.1C110.8 237.2 108.9 252.3 117.1 262.8L161.6 320l-44.53 57.25c-8.156 10.47-6.25 25.56 4.188 33.69C125.7 414.3 130.8 416 135.1 416c7.156 0 14.25-3.188 18.97-9.25L192 359.1l37.06 47.65C233.8 412.8 240.9 416 248 416c5.125 0 10.31-1.656 14.72-5.062c10.44-8.125 12.34-23.22 4.188-33.69L222.4 320l44.53-57.25c8.156-10.47 6.25-25.56-4.188-33.69C252.2 220.9 237.2 222.8 229.1 233.3z"/></svg></td>        
+        </tr>
              @endforeach
             @elseif($tanfidi && $tabletype == 'Ijraa')
             @foreach($tanfidi as $milaf)
             <tr class="{{ $coll[$loop->index] }}">
-              <td>{{ $milaf->Raqem }}</td>
-              <td>{{ $milaf->ijraa_type }}</td>
-               <td>{{ $milaf->taleb }}</td>
-               <td>{{ $milaf->matlob }}</td>
-               <td>{{ $milaf->date_receive }}</td>
-             </tr>
+               <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->Raqem }}</a></td>
+          <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->ijraa_type }}</a></td>
+          <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->taleb }}</a></td>
+          <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->matlob }}</a></td>
+          <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->date_receive }}</a></td>       
+          <td id="xls" class="{{ $milaf->Raqem }}" data-kind="{{ $tabletype }}" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M365.3 93.38l-74.63-74.64C278.6 6.742 262.3 0 245.4 0H64C28.65 0 0 28.65 0 64l.0065 384c0 35.34 28.65 64 64 64H320c35.2 0 64-28.8 64-64V138.6C384 121.7 377.3 105.4 365.3 93.38zM336 448c0 8.836-7.164 16-16 16H64.02c-8.838 0-16-7.164-16-16L48 64.13c0-8.836 7.164-16 16-16h160L224 128c0 17.67 14.33 32 32 32h79.1V448zM229.1 233.3L192 280.9L154.9 233.3C146.8 222.8 131.8 220.9 121.3 229.1C110.8 237.2 108.9 252.3 117.1 262.8L161.6 320l-44.53 57.25c-8.156 10.47-6.25 25.56 4.188 33.69C125.7 414.3 130.8 416 135.1 416c7.156 0 14.25-3.188 18.97-9.25L192 359.1l37.06 47.65C233.8 412.8 240.9 416 248 416c5.125 0 10.31-1.656 14.72-5.062c10.44-8.125 12.34-23.22 4.188-33.69L222.4 320l44.53-57.25c8.156-10.47 6.25-25.56-4.188-33.69C252.2 220.9 237.2 222.8 229.1 233.3z"/></svg></td>        
+        </tr>
              @endforeach
              @endif
             </tbody>

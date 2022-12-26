@@ -25,16 +25,14 @@ class MofawadController extends Controller
     //
   
     public function __construct(){
-        /*$this->middleware('auth');*/
+        $this->middleware('auth');
       }
 
-    public function index() {
-        return view('/');
-       }
+      public function index()
+      {
+        return view('search');
+      }
 
-    public function mofawad() {
-        return view('pizza.index',['pizza' => $pizza]);
-    } 
     
     public function tabligh() {
         $filetablighi=DB::table('filetablighi')->latest()->first();
@@ -50,7 +48,7 @@ class MofawadController extends Controller
         if(!empty(request('wantedkind'))){
 
         $file = DB::table(request('wantedkind'))
-        ->where('Raqem', '=', request('findmilaf'))
+        ->where('id', '=', request('findmilaf'))
         ->orWhere('taleb','like' ,'%'.request('findmilaf').'%')
         ->orWhere('matlob','like' ,'%'.request('findmilaf').'%')
         ->get();
@@ -58,7 +56,7 @@ class MofawadController extends Controller
         $tablexist=true;
         $tabletype=request('wantedkind');
         if(DB::table(request('wantedkind'))
-        ->where('Raqem', '=', request('findmilaf'))
+        ->where('id', '=', request('findmilaf'))
         ->orWhere('taleb','like' ,'%'.request('findmilaf').'%')
         ->orWhere('matlob','like' ,'%'.request('findmilaf').'%')
         ->exists()){
@@ -391,10 +389,43 @@ class MofawadController extends Controller
         return redirect('/search')->with('status','لفد تم حدف الملف ');
       }
 
-    public function compute_search()
-    {
+      public function xls(Request $request)
+      {   
+        
+            try {
+    
+                $table=DB::table($request->type)->find($request->id);
+    
+                if($request->type=='filetablighi'){
+                   $ramz = json_decode($table->ramz);
+                   return response()->json([
+                    'table' =>   $table,
+                    'ramz' =>  $ramz
+                ]);
+                }
+    
+                if($request->type=='file_tanfidi'){
+                    $ramz = json_decode($table->ramz);
+                   return response()->json([
+                    'table' => $table,
+                    'ramz' =>  $ramz
+                ]);
+                 }
 
-       
-    }
+                if($request->type=='Ijraa'){
+                    return response()->json([
+                     'table' =>  $table,
+                 ]);
+                 } 
+    
+               }
+    
+               catch (\Exception $e) {
+    
+                return redirect('compute');
+        
+                }
+         
+      }
     
 }

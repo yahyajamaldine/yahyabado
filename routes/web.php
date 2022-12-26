@@ -16,11 +16,6 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes(); 
 
-Route::get('/','App\Http\Controllers\MofawadController@search');
-
-
-Route::get('/mofawad','App\Http\Controllers\MofawadController@index' );
-
 
 Route::get('/tabligh','App\Http\Controllers\MofawadController@tabligh')->name('tabligh');
 
@@ -64,3 +59,7 @@ Route::post('/moditanfid/{id}','App\Http\Controllers\MofawadController@moditanfi
 Route::post('/modiijraa/{id}','App\Http\Controllers\MofawadController@modiijraa')->name('modiijraa');
 
 Route::delete('/delete/{type}/{id}','App\Http\Controllers\MofawadController@delete')->name('delete');
+
+Route::post('/xls','App\Http\Controllers\MofawadController@xls')->name('xls');
+
+Route::get('/','App\Http\Controllers\MofawadController@index')->name('index');

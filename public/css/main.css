@@ -231,13 +231,20 @@ textarea{
   border-left: 1px solid #cccccc;
 }
 
+.checkbox_option{
+  display: flex;
+}
+
+.checkbox_option div{
+  width: 50%;
+}
 .checkbox_option label {
   position: relative;
 }
 .checkbox_option label:before {
   content: "";
   display: inline-block;
-  transform: translateX(-190px);
+  transform: translateX(-135px);
   width: 0.7em;
   height: 0.7em;
   margin-right: 0.5em;
@@ -253,7 +260,7 @@ textarea{
   border-top: 2px solid #000000;
   content: "";
   height: 13px;
-  right: 205px;
+  right: 150px;
   position: absolute;
   top: 7px;
   transform: scaleX(-1) rotate(135deg);
@@ -267,7 +274,7 @@ textarea{
 }
 
 .file_form .checkbox_option label:after{
-  right:280px;
+  right:160px;
 }
 
 .checkbox_option input:hover + label:before {
@@ -286,6 +293,9 @@ textarea{
   border-color: #000000;
 }
 
+.checkbox-opt {
+  width:50%;
+}
 .radio_option label {
   margin-right: 1em;
 }

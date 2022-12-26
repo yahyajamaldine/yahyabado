@@ -565,8 +565,8 @@ div.form_wrapper {
               </div>
               <div class="input_field full-field">
                 <label for="molahada "class="field-text"> ملاحظات</label>
-                <textarea id="molahda" value="{{ $table->note }}" name="note" rows="4" cols="50"></textarea>
-             </div>
+                <textarea id="molahda" name="note"  rows="4" cols="50">"{{  $table->note }} </textarea>
+              </div>
                 <br/>
                 <div class="sb-button">
                   <input class="button" type="submit" value="تعديل" />

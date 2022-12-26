@@ -139,14 +139,17 @@ div.form_wrapper {
               </div>
               <div class="input_field full-field  ">
                 <label for="molahada "class="field-text"> ملاحظات</label>
-                <textarea id="molahda" name="note" value="{{  $table->note }}" rows="4" cols="50"></textarea>
+                <textarea id="molahda" name="note" rows="4" cols="50">{{ $table->note }}</textarea>
               </div>
                 <br/>
                 <br/>
                 <div class="sb-button">
-                  <input class="button" type="submit" value="اضافة الوثيقة" />
+                  <input class="button" type="submit" value="تعديل الوثيقة" />
                 </div>
               </form>
+              <div class="button-wrap">
+                        <a href="/search"><button class="button" id="register-btn" >إلغاء</button></a>
+                      </div>
             </div>
           </div>
         </div>
