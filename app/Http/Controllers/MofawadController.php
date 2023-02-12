@@ -114,7 +114,7 @@ class MofawadController extends Controller
         $file_tanfidi->date_creation=request('date_creation');
         $file_tanfidi->resume=request('resume');
         $file_tanfidi->watika_reciev=request('date_back');
-        $file_tanfidi->add_file=request('add_file');
+        $file_tanfidi->add_file=request('add_file-1');
         $file_tanfidi->note=request('note');
 
         $ramz = $file_tanfidi->ramz;
@@ -126,10 +126,16 @@ class MofawadController extends Controller
         $ramz['year_kad'] = request('year_kad');
         
         $file_tanfidi->ramz= $ramz;
-
-        if(!empty(request('file'))){
-            $path = $request->file('add_file')->store('files');
-            }
+  
+          for($i=0; $i<request('fileN');$i++){
+             /* if(!empty(request('add_file-{$i}'))){
+                echo '{$i}';
+                */
+            $path = $request->file('add_file-{$i}')->storeAs(
+                'files-{$request->user()->id}', 'add_file-{$i}'
+            );
+            
+             }
         $file_tanfidi->save();
      
 

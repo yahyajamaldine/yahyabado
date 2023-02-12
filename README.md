@@ -1,3 +1,23 @@
+<b>Instruction to setup Xamp in Laravel</b>
+<p>
+Here are the steps to deploy a Laravel project on a XAMPP server:
+
+Install XAMPP: First, you need to install XAMPP on the server. You can download it from the official website (https://www.apachefriends.org/index.html).
+
+<b>Copy the Laravel project files: Copy the Laravel project files to the htdocs folder in the XAMPP installation directory on the server.</b>
+
+<b>Configure the database: Create a new database in PHPMyAdmin on the server and update the .env file in your Laravel project with the database credentials.</b>
+
+<b>Start XAMPP: Start the Apache and MySQL modules in XAMPP. You can do this by opening the XAMPP control panel and clicking the "Start" buttons for Apache and MySQL.</b>
+
+<b>Set the document root: Open the Apache configuration file (httpd.conf) and set the document root to the public folder of your Laravel project.</b>
+
+<b>Restart Apache: After making the changes to the Apache configuration file, restart the Apache service in XAMPP.</b>
+
+Access the project: Open a web browser and navigate to http://server-ip (where server-ip is the IP address of the server) to access the Laravel project.
+
+</p>
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
@@ -64,3 +84,4 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+

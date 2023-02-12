@@ -2,10 +2,31 @@
 <script type="text/javascript">
  onload=()=>{
   const mainpage= document.getElementById('mainpage');
+  const fNumber=document.getElementById('fNumber');
+  const FilesUp= document.getElementsByClassName('filElM');
 
 mainpage.addEventListener('click',()=>{
   window.location.href='/search';
 })
+
+fNumber.addEventListener('change',function(param){
+
+    for(let i=0;i<(this.value);i++){
+     /* Showing wanted number of upload foreme*/
+       FilesUp[i].classList.remove('hidden')
+       FilesUp[i].setAttribute('required','');
+
+      }
+
+       for(let i=(this.value);i<(FilesUp.length);i++){
+     /* hidding none wanted files*/
+       FilesUp[i].classList.add('hidden');
+       FilesUp[i].removeAttribute('required');
+       }
+    
+})
+
+
  }
 </script>
 <style type="text/css">
@@ -15,6 +36,10 @@ div.form_wrapper {
 #logoutsvg{
    float: right;
    fill:black
+}
+
+.form_wrapper .hidden{
+  display: none !important;
 }
 </style>
 @section('content')
@@ -47,13 +72,13 @@ div.form_wrapper {
 
           نظرة عامة
           </a></li>
-         <li >
+          <li >
           <a href="{{ route('compute') }}">
-          الاحصاء
+          الإحصاء
           </a></li>
          <li>
          <a href="{{ route('ijraa') }}">
-         اجراء مباشر
+         إجراء مباشر
          </a></li>
          <li id="logoutli"  onclick="event.preventDefault();  document.getElementById('logout-form').submit();">
          <svg id="logoutsvg" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -79,7 +104,7 @@ div.form_wrapper {
     <div class="form_wrapper">
         <div class="form_container">
           <div class="title_container">
-            <h1>اضافة ملف تنفيدي:            </h1>
+            <h1>إضافة ملف تنفيدي:            </h1>
           </div>
           <br/>
           <br/>
@@ -92,16 +117,16 @@ div.form_wrapper {
                   <input type="text" name="Raqem" value="{{ $id }}" readonly placeholder=" الرقم التسلسلي " required />
                 </div>
                 <div class="input_field full-field">
-                    <label class="field-text">تاريخ تسلم الوثيقة موضوع الاجراء
+                    <label class="field-text">تاريخ تسلم الوثيقة موضوع الإجراء
                     </label>
                     <input type="date" name="date_receive" placeholder=" تاريخ تسلم الوثيقة مموضوع الاجراء" required />
                 </div>
                 <div class="input_field full-field">
-                    <label class="field-text">نوع الاجراء                    </label>
+                    <label class="field-text">نوع الإجراء                    </label>
                     <input type="text" name="ijrae_type" placeholder="نوع الاجراء " required />
                 </div>
                 <div class="input_field full-field">
-                  <label class="field-text">مراجع الملف موضوع الاجراء                </label>
+                  <label class="field-text">مراجع الملف موضوع الإجراء                </label>
                   <div id="input_holder">
                      <input type="number" min="1" placeholder="الرقم"name="rakem_kad" required >
                      /
@@ -121,20 +146,40 @@ div.form_wrapper {
                 <input type="text" name="matlob" placeholder=" المطلوب ضده "/>
               </div>
               <div class="input_field full-field">
-                <label class="field-text">تاريخ انجاز الاجراءات                </label>
+                <label class="field-text">تاريخ إنجاز الاجراءات                </label>
                 <input type="date" name="date_creation" placeholder="" />
               </div>
               <div class="input_field full-field">
-                <label class="field-text">ملخص الاجراءات المنجزة                </label>
+                <label class="field-text">ملخص الإجراءات المنجزة                </label>
                 <input type="text" name="resume" placeholder=" ملخص الاجراءات المنجزة  " />
             </div>
               <div class="input_field full-field">
-                <label class="field-text">تاريخ الارجاع الى كتابة الضبط
+                <label class="field-text">تاريخ الإرجاع إلى كتابة الضبط
                 </label>
                 <input type="date" name="date_back" placeholder="" />
             </div>
-              <div class="input_field full-field">
-                <label class="field-text" for="myfile"> اضافة وثيقة               </label>
+            <div class="input_field full-field">
+                <label class="field-text" for="myfile"> تحديد عدد الوثائق              </label>
+                <input type="number" min="0"  max="5" name="fileN" id="fNumber"  placeholder="" />
+              </div>
+              <div class="input_field full-field filElM hidden">
+                <label class="field-text" for="myfile"> إضافة الوثيقة-1               </label>
+                <input type="file" id="myfile" name="add_file-1"  placeholder="" />
+              </div>
+             <div class="input_field full-field filElM hidden">
+                <label class="field-text" for="myfile"> إضافة الوثيقة-2               </label>
+                <input type="file" id="myfile" name="add_file-2"  placeholder="" />
+              </div>
+              <div class="input_field full-field filElM hidden">
+                <label class="field-text" for="myfile"> إضافة الوثيقة-3               </label>
+                <input type="file"  id="myfile" name="add_file-3"  placeholder="" />
+              </div>
+              <div class="input_field full-field filElM hidden">
+                <label class="field-text" for="myfile"> إضافة الوثيقة-4               </label>
+                <input type="file" id="myfile" name="add_file"  placeholder="" />
+              </div>
+              <div class="input_field full-field filElM hidden">
+                <label class="field-text" for="myfile"> إضافة الوثيقة-5               </label>
                 <input type="file" id="myfile" name="add_file"  placeholder="" />
               </div>
               <div class="input_field full-field  ">
@@ -144,7 +189,7 @@ div.form_wrapper {
                 <br/>
                 <br/>
                 <div class="sb-button">
-                  <input class="button" type="submit" value="اضافة الوثيقة" />
+                  <input class="button" type="submit" value="إضافة الوثيقة" />
                 </div>
               </form>
             </div>

@@ -47,13 +47,13 @@ div.form_wrapper {
 
           نظرة عامة
           </a></li>
-         <li >
+          <li >
           <a href="{{ route('compute') }}">
-          الاحصاء
+          الإحصاء
           </a></li>
          <li>
          <a href="{{ route('ijraa') }}">
-         اجراء مباشر
+         إجراء مباشر
          </a></li>
          <li id="logoutli"  onclick="event.preventDefault();  document.getElementById('logout-form').submit();">
          <svg id="logoutsvg" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"

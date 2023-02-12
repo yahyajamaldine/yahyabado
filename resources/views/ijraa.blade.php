@@ -43,13 +43,13 @@ mainpage.addEventListener('click',()=>{
 
           نظرة عامة
           </a></li>
-         <li >
+          <li >
           <a href="{{ route('compute') }}">
-          الاحصاء
+          الإحصاء
           </a></li>
          <li>
          <a href="{{ route('ijraa') }}">
-         اجراء مباشر
+         إجراء مباشر
          </a></li>
          <li id="logoutli"  onclick="event.preventDefault();  document.getElementById('logout-form').submit();">
          <svg id="logoutsvg" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -88,7 +88,7 @@ mainpage.addEventListener('click',()=>{
                   <input type="text" name="Raqem" value="{{ $id }}" readonly placeholder=" الرقم التسلسلي" required />
                 </div>
                 <div class="input_field full-field">
-                    <label class="field-text">نوع الاجراء                    </label>
+                    <label class="field-text">نوع الإجراء                    </label>
                     <input type="text" name="ijraa_type" placeholder="نوع الاجراء " required />
                 </div>
                 <div class="input_field full-field">
@@ -101,16 +101,16 @@ mainpage.addEventListener('click',()=>{
                 <input type="text" name="taleb" placeholder="الطالب " required />
                 </div>
                <div class="input_field full-field">
-                <label class="field-text">المطلوب ضده الاجراء  
+                <label class="field-text">المطلوب ضده الإجراء  
                 </label>
                 <input type="text" name="matlob" placeholder=" المطلوب ضده " required/>
               </div>
               <div class="input_field full-field">
-                <label class="field-text">تاريخ انجاز الاجراء               </label>
+                <label class="field-text">تاريخ إنجاز الاجراء               </label>
                 <input type="date" name="date_creation" placeholder="" />
               </div>
               <div class="input_field full-field">
-                <label class="field-text">ملخص الاجراءات المنجزة                </label>
+                <label class="field-text">ملخص الإجراءات المنجزة                </label>
                 <input type="text" name="resume" placeholder=" ملخص الاجراءات المنجزة  "/>
             </div>
               <div class="input_field full-field">
@@ -129,7 +129,7 @@ mainpage.addEventListener('click',()=>{
                 <br/>
                 <br/>
                 <div class="sb-button">
-                  <input class="button" type="submit" value="اضافة الوثيقة" />
+                  <input class="button" type="submit" value="إضافة الوثيقة" />
                 </div>
               </form>
             </div>

@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes(); 
 
-
 Route::get('/tabligh','App\Http\Controllers\MofawadController@tabligh')->name('tabligh');
 
 Route::post('/tabligh','App\Http\Controllers\MofawadController@create_tabligh')->name('create_tabligh');

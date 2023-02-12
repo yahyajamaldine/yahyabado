@@ -214,7 +214,8 @@ mainpage.addEventListener('click',()=>{
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
   border:1px solid white;
-  border-radius:4px;
+  border-radius:8px;
+  overflow: hidden;
   font-size:1rem;
   width: 100%;
 }
@@ -298,11 +299,11 @@ mainpage.addEventListener('click',()=>{
           </a></li>
          <li >
           <a href="{{ route('compute') }}">
-          الاحصاء
+          الإحصاء
           </a></li>
          <li>
          <a href="{{ route('ijraa') }}">
-         اجراء مباشر
+         إجراء مباشر
          </a></li>
          <li id="logoutli"  onclick="event.preventDefault();  document.getElementById('logout-form').submit();">
          <svg id="logoutsvg" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -328,7 +329,7 @@ mainpage.addEventListener('click',()=>{
     <div class="form_wrapper">
         <div class="form_container">
           <div class="title_container">
-            <h1>الاحصاء:</h1>
+            <h1>الإحصاء:</h1>
           </div>
           <br/>
           <br/>
@@ -343,7 +344,7 @@ mainpage.addEventListener('click',()=>{
                     <select name="file_type" value="{{ old('file_type') }}">
                     <option value="file_tanfidi" >ملف تنفيدي</option>
                     <option value="filetablighi">ملف تبليغى</option>
-                     <option value="Ijraa">اجراء</option>
+                     <option value="Ijraa">إجراء</option>
                     </select>
                 </div>
 
@@ -353,14 +354,14 @@ mainpage.addEventListener('click',()=>{
                  </div>
 
                  <div class="input_field full-field">
-                    <label class="field-text">الى</label>
+                    <label class="field-text">إلى</label>
                     <input type="date" name="end_date" value="{{ old('end_date') }}" required />
                  </div>
               </div>
                 <br/>
                 <br/>
                 <div class="sb-button">
-                  <input class="button" type="submit" value="احصاء" />
+                  <input class="button" type="submit" value="إحصاء" />
                 </div>
         @if(!empty($tablexist))
           <div class="foundresult">
@@ -369,7 +370,7 @@ mainpage.addEventListener('click',()=>{
             <thead>
              <tr> 
               <th  scope="col" >الرقم التسلسلي </th>
-              <th  scope="col">نوع الاجراء</th>
+              <th  scope="col">نوع الإجراء</th>
               <th  scope="col">الطالب</th>
               <th  scope="col">المطلوب ضده</th>
               <th  scope="col">تاريخ تسلم الوثيقة </th>
