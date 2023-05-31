@@ -2,9 +2,29 @@
 <script type="text/javascript">
  onload=()=>{
   const mainpage= document.getElementById('mainpage');
+  const fNumber=document.getElementById('fNumber');
+  const FilesUp= document.getElementsByClassName('filElM');
 
 mainpage.addEventListener('click',()=>{
   window.location.href='/search';
+})
+
+
+fNumber.addEventListener('change',function(param){
+
+for(let i=0;i<(this.value);i++){
+ /* Showing wanted number of upload foreme*/
+   FilesUp[i].classList.remove('hidden')
+   FilesUp[i].setAttribute('required','');
+
+  }
+
+   for(let i=(this.value);i<(FilesUp.length);i++){
+ /* hidding none wanted files*/
+   FilesUp[i].classList.add('hidden');
+   FilesUp[i].removeAttribute('required');
+   }
+
 })
  }
 </script>
@@ -15,6 +35,15 @@ div.form_wrapper {
 #logoutsvg{
    float: right;
    fill:black
+}
+#filelinks a{
+   text-decoration: underline;
+   font-weight: bolder;
+   color:#3e6b8e;
+   margin-right: 215px;
+}
+.form_wrapper .hidden{
+  display: none !important;
 }
 </style>
 @section('content')
@@ -132,11 +161,42 @@ div.form_wrapper {
                 <label class="field-text">تاريخ الارجاع الى كتابة الضبط
                 </label>
                 <input type="date" name="date_back" value="{{  $table->watika_reciev }}" placeholder="" />
+             </div>
+          @if(!empty($table->Flist))    
+             <div id="filelinks">  
+          @php
+             $Flist = json_decode($table->Flist);
+             $length = count(get_object_vars($Flist));
+             $allowedfileNB= 5 - $length;
+
+          @endphp 
+          @foreach($Flist as $link)
+            <div class="input_field full-field" >
+            <label class="field-text">  الوثيقة رقم - {{ $loop->index+1 }}
+                </label>
+              <a class="filelink" href="{{ $link[0] }}/{{ $link[1] }}">{{ $link[1] }}</a> 
             </div>
-              <div class="input_field full-field">
-                <label class="field-text" for="myfile"> اضافة وثيقة               </label>
-                <input type="file" id="myfile" name="add_file"  placeholder="" />
+          @endforeach
+             </div>  
+          @else
+          @php
+             $length =0;
+             $allowedfileNB= 5
+          @endphp
+          @endif
+             <!---We have to pay attention to the naMe of uploaded name, a repeated file name 
+                  may replace the old one--->
+             <div class="input_field full-field">
+                <label class="field-text" for="myfile"> إضافة وثائق أخرى            </label>
+                <input type="number" min="0"  max="{{  $allowedfileNB  }}" name="fileN" id="fNumber"  placeholder="" />
+                <input type="hidden" name="length" value="{{ $length }}"  placeholder="" />
               </div>
+              @for ($i =1 ; $i < 6 ; $i++)
+              <div class="input_field full-field filElM hidden">
+                <label class="field-text" for="myfile"> إضافة الوثيقة-{{ $length + $i }}             </label>
+                <input type="file" id="myfile" name="add_file-{{ $length + $i  }}"  placeholder="" />
+              </div>     
+              @endfor    
               <div class="input_field full-field  ">
                 <label for="molahada "class="field-text"> ملاحظات</label>
                 <textarea id="molahda" name="note" rows="4" cols="50">{{ $table->note }}</textarea>

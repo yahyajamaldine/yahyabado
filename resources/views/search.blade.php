@@ -46,9 +46,9 @@
           div.select-box-search select{
             float: none;
              margin-left:0;
-             height: 45px;
+             height: 42px;
              font-size:16px;
-             margin-bottom:10px;
+             margin-bottom:9.5px;
              width: 110px;
   padding: 0px 15px;
   cursor: pointer;
@@ -162,6 +162,24 @@ td svg{
   fill:#ef4444;
 }
 
+#filelinks a{
+   text-decoration: underline;
+   font-weight: bolder;
+   color:#3e6b8e;
+}
+#filelinks ul{
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  color:#3e6b8e;
+
+}
+
+#filelinks ul li{
+  margin-bottom: 10%;
+}
+
+
 
 </style>
 <script type="text/javascript">
@@ -179,6 +197,47 @@ td svg{
     })
 
     const mainpage= document.getElementById('mainpage');
+
+    const filelink = document.querySelectorAll('.filelink');
+
+    filelink.forEach((item)=>{
+
+       item.addEventListener('click', async function(event){
+        event.preventDefault();
+         const path= item.getAttribute('href')
+
+        const ftch = await fetch('/docs', {
+          method: 'POST', headers: { 'Content-Type': 'application/json',  'X-CSRF-TOKEN': '{{ csrf_token() }}' }, 
+          body: JSON.stringify({"path": path})
+         }).then(response => {
+    if (response.ok) {
+        // Get the content disposition header, which contains the filename
+        const contentDisposition = response.headers.get('Content-Disposition');
+        const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+        const matches = filenameRegex.exec(contentDisposition);
+        const filename = matches[1].replace(/^"(.+(?="$))"$/, '$1');
+
+
+        // Create a new blob object with the file data and download it
+        response.blob().then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        });
+    } else {
+        // Handle error response
+        response.json().then(error => {
+            console.error(error.message);
+        });
+    }
+}).catch(error => {
+    console.error(error);
+});
+      });
+    });
 
     mainpage.addEventListener('click',()=>{
       window.location.href='/search';
@@ -315,7 +374,7 @@ td svg{
               <th  scope="col">تاريخ انجاز الاجراءات</th>
               <th  scope="col">ملخص الاجراءات المنجزة</th>
               <th  scope="col">تاريخ الارجاع الى كتابة الضبط</th>
-              <th  scope="col">الوثيقة المضافة</th>
+              <th  scope="col">الوثائق المضافة</th>
               <th  scope="col">ملاحظات</th>
               <th  scope="col">حدف</th>
           @elseif ($tabletype == 'filetablighi')
@@ -371,7 +430,23 @@ td svg{
           <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->date_creation }}</a></td>
           <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->resume }}</a></td>
           <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->watika_reciev }}</a></td>
-          <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->add_file }}</a></td>
+          <td id="filelinks">
+            @if(!empty($milaf->Flist))
+            <ul>
+          @php
+             $Flist = json_decode($milaf->Flist);
+          @endphp 
+          @foreach($Flist as $link)
+            <li>
+              <a class="filelink" href="{{ $link[0] }}/{{ $link[1] }}">{{ $link[1] }}</a>
+            </li>         
+          @endforeach 
+           </ul>  
+           @else
+               لا توجد أي وثيقة
+
+           @endif
+          </td>
            <td><a id="link" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->note }}</a></td>
            <td>
             <form class="delete" id="{{ $milaf->Raqem  }}" action="/delete/{{ $tabletype }}/{{$milaf->Raqem}}" method="POST">

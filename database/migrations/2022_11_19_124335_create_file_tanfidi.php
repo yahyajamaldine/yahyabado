@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('Raqem');
             $table->string('ramz');
+            $table->string('Flist',500)->nullable();
             $table->date('date_receive');
             $table->string('ijrae_type');
             $table->string('taleb')->nullable();
@@ -24,7 +25,6 @@ return new class extends Migration
             $table->date('date_creation')->nullable();
             $table->string('resume')->nullable();
             $table->date('watika_reciev')->nullable();
-            $table->string('add_file')->nullable();
             $table->text('note')->nullable();
             $table->timestamps();
         });

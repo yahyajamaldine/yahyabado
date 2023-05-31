@@ -20,6 +20,11 @@ use Illuminate\Support\Str;
 
 use Illuminate\Support\Facades\DB;
 
+use Illuminate\Support\Facades\Response;
+
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+
+
 class MofawadController extends Controller
 {
     //
@@ -52,7 +57,8 @@ class MofawadController extends Controller
         ->orWhere('taleb','like' ,'%'.request('findmilaf').'%')
         ->orWhere('matlob','like' ,'%'.request('findmilaf').'%')
         ->get();
-         
+
+               
         $tablexist=true;
         $tabletype=request('wantedkind');
         if(DB::table(request('wantedkind'))
@@ -60,7 +66,8 @@ class MofawadController extends Controller
         ->orWhere('taleb','like' ,'%'.request('findmilaf').'%')
         ->orWhere('matlob','like' ,'%'.request('findmilaf').'%')
         ->exists()){
-
+              
+              
         return view('search',['watika' => $file ,'tablexist' => $tablexist, 'tabletype' =>  $tabletype]);
         }
 
@@ -74,6 +81,7 @@ class MofawadController extends Controller
            return view('search');
         }
     } 
+
     public function success() {
          if (empty(request('msg'))){
         return redirect('/');
@@ -96,7 +104,7 @@ class MofawadController extends Controller
        * 
        */
     public function create_tanfid(Request $request) {
-
+        
         $file_tanfidiID=DB::table('file_tanfidi')->latest()->first();
         $file_tanfidi=new file_tanfidi();
 
@@ -114,7 +122,6 @@ class MofawadController extends Controller
         $file_tanfidi->date_creation=request('date_creation');
         $file_tanfidi->resume=request('resume');
         $file_tanfidi->watika_reciev=request('date_back');
-        $file_tanfidi->add_file=request('add_file-1');
         $file_tanfidi->note=request('note');
 
         $ramz = $file_tanfidi->ramz;
@@ -126,21 +133,33 @@ class MofawadController extends Controller
         $ramz['year_kad'] = request('year_kad');
         
         $file_tanfidi->ramz= $ramz;
+
+        $Flist = $file_tanfidi->Flist;
+
+ 
   
-          for($i=0; $i<request('fileN');$i++){
-             /* if(!empty(request('add_file-{$i}'))){
-                echo '{$i}';
-                */
-            $path = $request->file('add_file-{$i}')->storeAs(
-                'files-{$request->user()->id}', 'add_file-{$i}'
-            );
-            
-             }
+         if(!empty(request('fileN'))){
+            $time = Carbon::now();
+            for($i=1; $i<request('fileN')+1;$i++){
+                if(!empty(request("add_file-{$i}"))){
+                    $file = request("add_file-{$i}");
+                    $fileName = $file->getClientOriginalName();
+                    //saving the file path and name, to do that we need a table to do soo
+                    $Flist["file{$i}"] = ["{$time->year}/tanfidi/tanfid-{$file_tanfidi->Raqem}",$fileName];
+                $path = $request->file("add_file-{$i}")->storeAs(
+                    "public/{$time->year}/tanfidi/tanfid-{$file_tanfidi->Raqem}",$fileName
+                );}
+         }
+         $file_tanfidi->Flist= $Flist;
+        } 
+
         $file_tanfidi->save();
      
 
         return redirect()->route('success',[ 'msg' => " لقد تم انشاء ملفكم برقم ".$file_tanfidi->Raqem."  سيتم ارجاعمك الى الصفحة الرئيسية"]);
-    } 
+            
+
+    }
 
     public function create_tabligh(Request $request) {
 
@@ -166,11 +185,7 @@ class MofawadController extends Controller
         $filetablighi->matlob=request('naib');
         $filetablighi->date_ijraa=request('date_ijraa');
         $filetablighi->watika_reciev=request('date_back');
-        $filetablighi->watika=request('watika');
-
-        if(!empty(request('watika'))){
-            $path = $request->file('watika')->store('files');
-        }
+       
         $filetablighi->add_notif=request('add_notif');
         $filetablighi->note=request('note');
         
@@ -183,6 +198,26 @@ class MofawadController extends Controller
         $ramz['year_kad'] = request('year_kad');
         
         $filetablighi->ramz= $ramz;
+        
+        /*
+        
+        $Flist = $filetablighi->Flist;
+  
+         if(!empty(request('fileN'))){
+            $time = Carbon::now();
+            for($i=1; $i<request('fileN')+1;$i++){
+                if(!empty(request("add_file-{$i}"))){
+                    $file = request("add_file-{$i}");
+                    $fileName = $file->getClientOriginalName();
+                    //saving the file path and name, to do that we need a table to do soo
+                    $Flist["file{$i}"] = ["{$time->year}/tablighi/tabligh-{$filetablighi->Raqem}",$fileName];
+                $path = $request->file("add_file-{$i}")->storeAs(
+                    "public/{$time->year}/tablighi/tabligh-{$filetablighi->Raqem}",$fileName
+                );}
+         }
+         $filetablighi->Flist= $Flist;
+        } 
+        */
         
         $filetablighi->save();
 
@@ -203,9 +238,17 @@ class MofawadController extends Controller
     }
 
     public function create_ijraa(Request $request){
-
+        
+        $IjraaID=DB::table('Ijraa')->latest()->first();
         $Ijraa=new Ijraa();
-        $Ijraa->Raqem=request('Raqem');
+
+        if(!empty($IjraaID)){
+            $Ijraa->Raqem=($IjraaID->id)+1;
+        }
+        else{
+            $Ijraa->Raqem=1;
+            
+        }
         $Ijraa->ijraa_type=request('ijraa_type');
         $Ijraa->date_receive=request('date_receive');
         $Ijraa->taleb=request('taleb');
@@ -345,7 +388,6 @@ class MofawadController extends Controller
         $file_tanfidi->date_creation=request('date_creation');
         $file_tanfidi->resume=request('resume');
         $file_tanfidi->watika_reciev=request('date_back');
-        $file_tanfidi->add_file=request('add_file');
         $file_tanfidi->note=request('note');
 
         $ramz = $file_tanfidi->ramz;
@@ -357,10 +399,28 @@ class MofawadController extends Controller
         $ramz['year_kad'] = request('year_kad');
         
         $file_tanfidi->ramz= $ramz;
+        
+        $Flist = $file_tanfidi->Flist;
 
-        if(!empty(request('file'))){
-            $path = $request->file('add_file')->store('files');
-            }
+        
+        $length = request('length');
+
+        if(!empty(request('fileN'))){
+            $time = Carbon::now();
+            for($i=1; $i<request('fileN')+1;$i++){
+                $lastelem=$length + $i;
+                if(!empty(request("add_file-{$lastelem}"))){
+                    $file = request("add_file-{$lastelem}");
+                    $fileName = $file->getClientOriginalName();
+                    //saving the file path and name, to do that we need a table to do soo
+                    $Flist["file{$lastelem}"] = ["{$time->year}/tanfidi/tanfid-{$file_tanfidi->Raqem}",$fileName];
+                $path = $request->file("add_file-{$lastelem}")->storeAs(
+                    "public/{$time->year}/tanfidi/tanfid-{$file_tanfidi->Raqem}",$fileName
+                );}
+         }
+         $file_tanfidi->Flist= $Flist;
+        }
+
         $file_tanfidi->save();
 
         return redirect()->route('search', ['findmilaf' => request('id'), 'wantedkind' => 'file_tanfidi'])->with('status','لفد تم تعديل الملف الخاص بكم');
@@ -433,5 +493,32 @@ class MofawadController extends Controller
                 }
          
       }
+
+      public function docs(Request $request){
+   
+
+        $file_path = storage_path("app/public/".$request->path);
+
+        if (!file_exists($file_path)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'File not found'
+            ], 404);
+        }
+    
+        $headers = [
+            'Content-Type' => 'application/octet-stream',
+            'Content-Description' => 'File Transfer',
+            'Content-Disposition' => 'attachment; filename="' . basename($file_path) . '"',
+            'Content-Length' => filesize($file_path),
+            'Cache-Control' => 'no-cache, no-store, must-revalidate',
+            'Pragma' => 'no-cache',
+            'Expires' => '0',
+            'Last-Modified' => gmdate('D, d M Y H:i:s T', filemtime($file_path)),
+            'Etag' => md5_file($file_path),
+        ];
+    
+        return new BinaryFileResponse($file_path, 200, $headers);
+    }
     
 }

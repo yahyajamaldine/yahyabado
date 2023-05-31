@@ -6,6 +6,7 @@
     mainpage.addEventListener('click',()=>{
       window.location.href='/search';
     })
+
   
     const ListofSource={
     "محاكم الإستئناف": [
@@ -554,14 +555,17 @@ div.form_wrapper {
                 <label class="field-text"> تاريخ ارجاع الوثيقة                </label>
                 <input type="date" name="date_back" placeholder=""  />
              </div>
+             <!---
               <div class="input_field full-field">
                 <label class="field-text" for="myfile"> اضافة وثيقة               </label>
                 <input type="file" id="myfile" name="watika" placeholder=""  />
               </div>
+              
               <div class="input_field full-field">
                 <label class="field-text" for="myfile"> اضافة اشعار               </label>
                 <input type="file" id="myfile" name="add_notif" placeholder="" />
               </div>
+              --->
               <div class="input_field full-field">
                 <label for="molahada "class="field-text"> ملاحظات</label>
                 <textarea id="molahda" name="note" rows="4" cols="50"></textarea>

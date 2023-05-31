@@ -61,4 +61,8 @@ Route::delete('/delete/{type}/{id}','App\Http\Controllers\MofawadController@dele
 
 Route::post('/xls','App\Http\Controllers\MofawadController@xls')->name('xls');
 
+Route::post('/docs','App\Http\Controllers\MofawadController@docs')->name('docs');
+
+Route::get('/download/{path}','App\Http\Controllers\MofawadController@download')->name('download');
+
 Route::get('/','App\Http\Controllers\MofawadController@index')->name('index');

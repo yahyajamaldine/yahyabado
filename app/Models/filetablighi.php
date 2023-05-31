@@ -12,6 +12,7 @@ class filetablighi extends Model
     /******The ramz property is going to contains 3 pieces of infos */
     protected $casts = [
         'ramz' => 'array',
+        'Flist' => 'array',
     ];
 
     use HasFactory;

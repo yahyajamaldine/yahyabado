@@ -162,6 +162,7 @@ div.form_wrapper {
                 <label class="field-text" for="myfile"> تحديد عدد الوثائق              </label>
                 <input type="number" min="0"  max="5" name="fileN" id="fNumber"  placeholder="" />
               </div>
+
               <div class="input_field full-field filElM hidden">
                 <label class="field-text" for="myfile"> إضافة الوثيقة-1               </label>
                 <input type="file" id="myfile" name="add_file-1"  placeholder="" />
@@ -176,11 +177,11 @@ div.form_wrapper {
               </div>
               <div class="input_field full-field filElM hidden">
                 <label class="field-text" for="myfile"> إضافة الوثيقة-4               </label>
-                <input type="file" id="myfile" name="add_file"  placeholder="" />
+                <input type="file" id="myfile" name="add_file-4"  placeholder="" />
               </div>
               <div class="input_field full-field filElM hidden">
                 <label class="field-text" for="myfile"> إضافة الوثيقة-5               </label>
-                <input type="file" id="myfile" name="add_file"  placeholder="" />
+                <input type="file" id="myfile" name="add_file-5"  placeholder="" />
               </div>
               <div class="input_field full-field  ">
                 <label for="molahada "class="field-text"> ملاحظات</label>

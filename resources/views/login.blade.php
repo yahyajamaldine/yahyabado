@@ -30,11 +30,10 @@
         width: 40%; 
         margin-left: 10px;
       }
-      .form_wrapper span{
+      .form_wrapper span.error{
         font-size:12px;
-        position: relative;
-        right:110px;
         color:red;
+        margin-right:110px;
         margin-top:0;
         margin-bottom:14px;
       }
@@ -56,20 +55,20 @@
                      @csrf 
                      <div class="input_field full-field ">
                         <label class="field-text"> اسم المستعمل</label>
-                        <input type="text" name="username" placeholder="اسم المستعمل" class="@error('email') error @enderror" value="{{ old('username') }}" required autocomplete="email" autofocus />
+                        <input type="text" name="username" placeholder="اسم المستعمل" class="@error('username') error @enderror" value="{{ old('username') }}" required autocomplete="username" autofocus />
                       </div>
                       @error('username')
-                      <span class="invalid-feedback" role="alert">
+                      <span class="error" role="alert">
                                         <strong>{{ $message }}</strong>
                        </span>
                         @enderror
 
                       <div class="input_field full-field ">
                         <label class="field-text"> كلمة السر</label>
-                        <input type="password" class="@error('password') error @enderror" name="password" placeholder="كلمة السر" value="{{ old('password') }} required autocomplete="current-password"/>
+                        <input type="password" class="@error('password') error @enderror" name="password" placeholder="كلمة السر" value="{{ old('password') }}" required autocomplete="password" />
                       </div>
                       @error('password')
-                                    <span class="invalid-feedback" role="alert">
+                                    <span class="error" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                         @enderror
