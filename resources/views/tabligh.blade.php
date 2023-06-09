@@ -2,8 +2,30 @@
 <script type="text/javascript">
  onload=()=>{
      const mainpage= document.getElementById('mainpage');
+     const fNumber=document.getElementById('fNumber');
+     const FilesUp= document.getElementsByClassName('filElM');
+    
+     const buttonadd=document.getElementById('button-add');
 
-    mainpage.addEventListener('click',()=>{
+     
+   fNumber.addEventListener('change',function(param){
+
+   for(let i=0;i<(this.value);i++){
+ /* Showing wanted number of upload foreme*/
+   FilesUp[i].classList.remove('hidden')
+   FilesUp[i].setAttribute('required','');
+
+  }
+
+   for(let i=(this.value);i<(FilesUp.length);i++){
+ /* hidding none wanted files*/
+   FilesUp[i].classList.add('hidden');
+   FilesUp[i].removeAttribute('required');
+   }
+
+}) 
+     const file_form=document.getElementById('file_form');
+     mainpage.addEventListener('click',()=>{
       window.location.href='/search';
     })
 
@@ -338,7 +360,7 @@ const IbtidaList={
       EXSourceholder.classList.remove('hidden');
       }
 
-SelectedType.addEventListener('change',(event)=>{
+   SelectedType.addEventListener('change',(event)=>{
 
     while (ItsSource.length > 0) {
       ItsSource.remove(0);
@@ -377,9 +399,11 @@ SelectedType.addEventListener('change',(event)=>{
         ItsSource.removeEventListener('change',Handlertype);
         EXSourceholder.classList.add('hidden');
       }
+}); 
 
-
-   }); 
+      file_form.addEventListener('submit',()=>{
+      buttonadd.disabled = true;
+     });
 
  }
 </script>
@@ -460,7 +484,7 @@ div.form_wrapper {
           <br/>
           <div class="row clearfix">
             <div class="">
-              <form  class="file_form" method="POST" action="{{ route('create_tabligh') }}" enctype="multipart/form-data">
+              <form id="file_form" class="file_form" method="POST" action="{{ route('create_tabligh') }}" enctype="multipart/form-data">
                  @csrf
                 <div class="input_field full-field select_option">
                   <label class="field-text">الرقم الترتيبي </label>
@@ -482,7 +506,7 @@ div.form_wrapper {
                     <label class="field-text">نوعها </label>
                     <div class="select_arrow" ></div>
                     <select name="kad_type">
-                      <option>... اختيار</option>
+                      <option disabled selected>... اختيار</option>
                       <option value="مدني">مدني</option>
                       <option value="جنحى">جنحى</option>
                       <option value="تجاري">تجاري</option>
@@ -497,8 +521,8 @@ div.form_wrapper {
               <div class="input_field full-field select_option">
                 <label class="field-text">مصدرها                </label>
                 <div class="select_arrow" ></div>
-                    <select id="its_type" name="source">
-                      <option>... اختيار</option>
+                    <select id="its_type" name="source" required>
+                      <option disabled selected>... اختيار</option>
                       <option value="محاكم الإستئناف">محاكم الإستئناف</option>
                       <option value="المحاكم الإبتدائية">المحاكم الإبتدائية</option>
                       <option value="المحاكم التجارية">المحاكم التجارية</option>
@@ -555,24 +579,39 @@ div.form_wrapper {
                 <label class="field-text"> تاريخ ارجاع الوثيقة                </label>
                 <input type="date" name="date_back" placeholder=""  />
              </div>
-             <!---
-              <div class="input_field full-field">
-                <label class="field-text" for="myfile"> اضافة وثيقة               </label>
-                <input type="file" id="myfile" name="watika" placeholder=""  />
+             
+            <div class="input_field full-field">
+                <label class="field-text" for="myfile"> تحديد عدد الوثائق              </label>
+                <input type="number" min="0"  max="5" name="fileN" id="fNumber"  placeholder="" />
               </div>
-              
-              <div class="input_field full-field">
-                <label class="field-text" for="myfile"> اضافة اشعار               </label>
-                <input type="file" id="myfile" name="add_notif" placeholder="" />
+
+              <div class="input_field full-field filElM hidden">
+                <label class="field-text" for="myfile"> إضافة الوثيقة-1               </label>
+                <input type="file" id="myfile" name="add_file-1"  placeholder="" />
               </div>
-              --->
+             <div class="input_field full-field filElM hidden">
+                <label class="field-text" for="myfile"> إضافة الوثيقة-2               </label>
+                <input type="file" id="myfile" name="add_file-2"  placeholder="" />
+              </div>
+              <div class="input_field full-field filElM hidden">
+                <label class="field-text" for="myfile"> إضافة الوثيقة-3               </label>
+                <input type="file"  id="myfile" name="add_file-3"  placeholder="" />
+              </div>
+              <div class="input_field full-field filElM hidden">
+                <label class="field-text" for="myfile"> إضافة الوثيقة-4               </label>
+                <input type="file" id="myfile" name="add_file-4"  placeholder="" />
+              </div>
+              <div class="input_field full-field filElM hidden">
+                <label class="field-text" for="myfile"> إضافة الوثيقة-5               </label>
+                <input type="file" id="myfile" name="add_file-5"  placeholder="" />
+              </div>
               <div class="input_field full-field">
                 <label for="molahada "class="field-text"> ملاحظات</label>
                 <textarea id="molahda" name="note" rows="4" cols="50"></textarea>
              </div>
                 <br/>
                 <div class="sb-button">
-                  <input class="button" type="submit" value="اضافة الوثيقة" />
+                  <input id="button-add" class="button" type="submit" value="اضافة الوثيقة" />
                 </div>
               </form>
             </div>

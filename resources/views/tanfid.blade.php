@@ -5,6 +5,10 @@
   const fNumber=document.getElementById('fNumber');
   const FilesUp= document.getElementsByClassName('filElM');
 
+  const buttonadd=document.getElementById('button-add');
+
+  const file_form=document.getElementById('file_form');
+
 mainpage.addEventListener('click',()=>{
   window.location.href='/search';
 })
@@ -25,6 +29,10 @@ fNumber.addEventListener('change',function(param){
        }
     
 })
+
+       file_form.addEventListener('submit',()=>{
+      buttonadd.disabled = true;
+     });
 
 
  }
@@ -110,7 +118,7 @@ div.form_wrapper {
           <br/>
           <div class="row clearfix">
             <div class="">
-              <form class="file_form" method="POST" enctype="multipart/form-data" action="{{ route('create_tanfid') }}">
+              <form id="file_form" class="file_form" method="POST" enctype="multipart/form-data" action="{{ route('create_tanfid') }}">
               @csrf
                 <div class="input_field full-field select_option">
                   <label class="field-text">الرقم التسلسلي                </label>
@@ -190,7 +198,7 @@ div.form_wrapper {
                 <br/>
                 <br/>
                 <div class="sb-button">
-                  <input class="button" type="submit" value="إضافة الوثيقة" />
+                  <input id="button-add" class="button" type="submit" value="إضافة الوثيقة" />
                 </div>
               </form>
             </div>

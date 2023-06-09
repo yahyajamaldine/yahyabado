@@ -12,6 +12,9 @@ class file_tanfidi extends Model
 {
     protected $table="file_tanfidi";
 
+    public $incrementing = false;
+
+
      /******The ramz property is going to contains 3 pieces of infos */
      protected $casts = [
         'ramz' =>  'array',

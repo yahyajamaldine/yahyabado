@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('ijraa', function (Blueprint $table) {
             $table->id();
-            $table->integer('Raqem');
+            $table->string('Raqem');
             $table->string('ijraa_type');
+            $table->string('Flist',500)->nullable();
             $table->date('date_receive')->nullable();
             $table->string('taleb')->nullable();
             $table->string('matlob')->nullable();

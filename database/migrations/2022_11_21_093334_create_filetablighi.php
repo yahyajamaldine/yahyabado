@@ -15,7 +15,7 @@ return new class extends Migration
        {
     Schema::create('filetablighi', function (Blueprint $table) {
             $table->id();
-            $table->integer('Raqem');
+            $table->string('Raqem');
             $table->string('ramz');
             $table->string('Flist',500)->nullable();
             $table->string('kad_type');

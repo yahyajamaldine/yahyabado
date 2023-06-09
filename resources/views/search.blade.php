@@ -389,6 +389,7 @@ td svg{
               <th  scope="col">تاريخ تسلمها</th>
               <th  scope="col">اسم طالب الاجراء و من ينوب عنه</th>
               <th  scope="col">اسم المطلوب ضده الاجراء و من ينوب عنه</th>
+              <th  scope="col">الوثائق المضافة</th> 
               <th  scope="col">حدف</th>
          @elseif ($tabletype == 'Ijraa')
           <th  scope="col" >الرقم التسلسلي</th>
@@ -399,7 +400,7 @@ td svg{
           <th  scope="col">تاريخ انجاز الاجراء</th>
           <th  scope="col">ملخص الاجراءات المنجزة</th>
           <th  scope="col">تاريخ تسليم الوثيقة</th>
-          <th  scope="col">تحميل الوثيقة</th>
+          <th  scope="col">الوثائق المضافة</th> 
           <th  scope="col">ملاحظات</th>
           <th  scope="col">حدف</th>
           @endif
@@ -479,6 +480,23 @@ td svg{
           <td> <a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->date_receive}}</a></td>
           <td> <a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->taleb }}</a></td>
           <td>  <a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->matlob }}</a></td>
+          <td id="filelinks">
+            @if(!empty($milaf->Flist))
+            <ul>
+          @php
+             $Flist = json_decode($milaf->Flist);
+          @endphp 
+          @foreach($Flist as $link)
+            <li>
+              <a class="filelink" href="{{ $link[0] }}/{{ $link[1] }}">{{ $link[1] }}</a>
+            </li>         
+          @endforeach 
+           </ul>  
+           @else
+               لا توجد أي وثيقة
+
+           @endif
+          </td>
           <td>
             <form class="delete" id="{{ $milaf->Raqem  }}" action="/delete/{{ $tabletype }}/{{$milaf->Raqem}}" method="POST">
               @csrf
@@ -502,7 +520,23 @@ td svg{
           <td><a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->creat_date }}</a></td>
           <td><a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->ijraa_rs}}</a></td>
           <td><a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->date_receive }}</a></td>
-          <td><a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->watika_up}}</a></td>
+          <td id="filelinks">
+            @if(!empty($milaf->Flist))
+            <ul>
+          @php
+             $Flist = json_decode($milaf->Flist);
+          @endphp 
+          @foreach($Flist as $link)
+            <li>
+              <a class="filelink" href="{{ $link[0] }}/{{ $link[1] }}">{{ $link[1] }}</a>
+            </li>         
+          @endforeach 
+           </ul>  
+           @else
+               لا توجد أي وثيقة
+
+           @endif
+          </td>
           <td><a id="link" target="_blank" href="{{ route('modi',[ 'type' => $tabletype , 'id' => $milaf->Raqem ] ) }}">{{ $milaf->note }}</a></td>
           <td>
             <form class="delete" id="{{ $milaf->Raqem  }}" action="/delete/{{ $tabletype }}/{{$milaf->Raqem}}" method="POST">

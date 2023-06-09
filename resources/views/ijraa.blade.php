@@ -2,10 +2,38 @@
 <script type="text/javascript">
  onload=()=>{
   const mainpage= document.getElementById('mainpage');
+  const fNumber=document.getElementById('fNumber');
+  const FilesUp= document.getElementsByClassName('filElM');
+  
+  const buttonadd=document.getElementById('button-add');
+
+  const file_form=document.getElementById('file_form');
 
 mainpage.addEventListener('click',()=>{
   window.location.href='/search';
 })
+
+
+fNumber.addEventListener('change',function(param){
+
+for(let i=0;i<(this.value);i++){
+ /* Showing wanted number of upload foreme*/
+   FilesUp[i].classList.remove('hidden')
+   FilesUp[i].setAttribute('required','');
+
+  }
+
+   for(let i=(this.value);i<(FilesUp.length);i++){
+ /* hidding none wanted files*/
+   FilesUp[i].classList.add('hidden');
+   FilesUp[i].removeAttribute('required');
+   }
+
+})
+
+file_form.addEventListener('submit',()=>{
+      buttonadd.disabled = true;
+     });
  }
 </script>
 <style type="text/css">
@@ -13,6 +41,11 @@ mainpage.addEventListener('click',()=>{
    float: right;
    fill:black
 }
+
+.form_wrapper .hidden{
+  display: none !important;
+}
+
 </style>
 @section('content')
 
@@ -81,7 +114,7 @@ mainpage.addEventListener('click',()=>{
           <br/>
           <div class="row clearfix">
             <div class="">
-              <form method="POST" action="{{ route('create_ijraa') }}" enctype="multipart/form-data">
+              <form id="file_form" method="POST" action="{{ route('create_ijraa') }}" enctype="multipart/form-data">
               @csrf
                 <div class="input_field full-field select_option">
                   <label class="field-text">الرقم التسلسلي                </label>
@@ -118,9 +151,30 @@ mainpage.addEventListener('click',()=>{
                 </label>
                 <input type="date" name="watika_r" placeholder="" />
             </div>
-              <div class="input_field full-field">
-                <label class="field-text" for="myfile"> تحميل الوثيقة              </label>
-                <input type="file" id="myfile" name="file" placeholder="" />
+            <div class="input_field full-field">
+                <label class="field-text" for="myfile"> تحديد عدد الوثائق              </label>
+                <input type="number" min="0"  max="5" name="fileN" id="fNumber"  placeholder="" />
+              </div>
+
+              <div class="input_field full-field filElM hidden">
+                <label class="field-text" for="myfile"> إضافة الوثيقة-1               </label>
+                <input type="file" id="myfile" name="add_file-1"  placeholder="" />
+              </div>
+             <div class="input_field full-field filElM hidden">
+                <label class="field-text" for="myfile"> إضافة الوثيقة-2               </label>
+                <input type="file" id="myfile" name="add_file-2"  placeholder="" />
+              </div>
+              <div class="input_field full-field filElM hidden">
+                <label class="field-text" for="myfile"> إضافة الوثيقة-3               </label>
+                <input type="file"  id="myfile" name="add_file-3"  placeholder="" />
+              </div>
+              <div class="input_field full-field filElM hidden">
+                <label class="field-text" for="myfile"> إضافة الوثيقة-4               </label>
+                <input type="file" id="myfile" name="add_file-4"  placeholder="" />
+              </div>
+              <div class="input_field full-field filElM hidden">
+                <label class="field-text" for="myfile"> إضافة الوثيقة-5               </label>
+                <input type="file" id="myfile" name="add_file-5"  placeholder="" />
               </div>
               <div class="input_field full-field  ">
                 <label for="molahada "class="field-text"> ملاحظات</label>
@@ -129,7 +183,7 @@ mainpage.addEventListener('click',()=>{
                 <br/>
                 <br/>
                 <div class="sb-button">
-                  <input class="button" type="submit" value="إضافة الوثيقة" />
+                  <input id="button-add" class="button" type="submit" value="إضافة الوثيقة" />
                 </div>
               </form>
             </div>

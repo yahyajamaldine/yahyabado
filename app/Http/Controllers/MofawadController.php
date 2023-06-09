@@ -110,9 +110,11 @@ class MofawadController extends Controller
 
         if(!empty($file_tanfidiID)){
             $file_tanfidi->Raqem=($file_tanfidiID->id)+1;
+            $file_tanfidi->id=($file_tanfidiID->id)+1;
         }
         else{
             $file_tanfidi->Raqem=1;
+            $file_tanfidi->id=1;
             
         }
         $file_tanfidi->date_receive=request('date_receive');
@@ -168,9 +170,11 @@ class MofawadController extends Controller
 
         if(!empty($filetablighiID)){
             $filetablighi->Raqem=($filetablighiID->id)+1;
+            $filetablighi->id=($filetablighiID->id)+1;
         }
         else{
             $filetablighi->Raqem=1;
+            $filetablighi->id=1;
             
         }
         $filetablighi->kad_type=request('kad_type');
@@ -199,8 +203,6 @@ class MofawadController extends Controller
         
         $filetablighi->ramz= $ramz;
         
-        /*
-        
         $Flist = $filetablighi->Flist;
   
          if(!empty(request('fileN'))){
@@ -217,7 +219,6 @@ class MofawadController extends Controller
          }
          $filetablighi->Flist= $Flist;
         } 
-        */
         
         $filetablighi->save();
 
@@ -244,9 +245,11 @@ class MofawadController extends Controller
 
         if(!empty($IjraaID)){
             $Ijraa->Raqem=($IjraaID->id)+1;
+            $Ijraa->id=($IjraaID->id)+1;
         }
         else{
             $Ijraa->Raqem=1;
+            $Ijraa->id=1;
             
         }
         $Ijraa->ijraa_type=request('ijraa_type');
@@ -262,7 +265,22 @@ class MofawadController extends Controller
         }
         $Ijraa->note=request('note');
 
-
+        $Flist =  $Ijraa->Flist;
+  
+        if(!empty(request('fileN'))){
+           $time = Carbon::now();
+           for($i=1; $i<request('fileN')+1;$i++){
+               if(!empty(request("add_file-{$i}"))){
+                   $file = request("add_file-{$i}");
+                   $fileName = $file->getClientOriginalName();
+                   //saving the file path and name, to do that we need a table to do soo
+                   $Flist["file{$i}"] = ["{$time->year}/ijraa/ijraa-{ $Ijraa->Raqem}",$fileName];
+               $path = $request->file("add_file-{$i}")->storeAs(
+                   "public/{$time->year}/ijraa/ijraa-{$Ijraa->Raqem}",$fileName
+               );}
+        }
+        $Ijraa->Flist= $Flist;
+       } 
         $Ijraa->save();
 
         return redirect()->route('success',[ 'msg' => " لقد تم انشاء اجراء مباشر برقم ". $Ijraa->Raqem."  سيتم ارجاعمك الى الصفحة الرئيسية"]);
@@ -365,12 +383,28 @@ class MofawadController extends Controller
         $filetablighi->matlob=request('naib');
         $filetablighi->date_ijraa=request('date_ijraa');
         $filetablighi->watika_reciev=request('date_back');
-        $filetablighi->watika=request('watika');
+       
+        $Flist = $filetablighi->Flist;
 
-        if(!empty(request('watika'))){
-            $path = $request->file('watika')->store('files');
+        
+        $length = request('length');
+
+        if(!empty(request('fileN'))){
+            $time = Carbon::now();
+            for($i=1; $i<request('fileN')+1;$i++){
+                $lastelem=$length + $i;
+                if(!empty(request("add_file-{$lastelem}"))){
+                    $file = request("add_file-{$lastelem}");
+                    $fileName = $file->getClientOriginalName();
+                    //saving the file path and name, to do that we need a table to do soo
+                    $Flist["file{$lastelem}"] = ["{$time->year}/tablighi/tabligh-{$filetablighi->Raqem}",$fileName];
+                $path = $request->file("add_file-{$lastelem}")->storeAs(
+                    "public/{$time->year}/tablighi/tabligh-{$filetablighi->Raqem}",$fileName
+                );}
+         }
+         $filetablighi->Flist= $Flist;
         }
-        $filetablighi->add_notif=request('add_notif');
+
         $filetablighi->note=request('note');
         $filetablighi->save();
         
@@ -437,11 +471,28 @@ class MofawadController extends Controller
         $Ijraa->creat_date=request('date_creation');
         $Ijraa->ijraa_rs=request('resume');
         $Ijraa->watika_reciev=request('watika_r');
-        $Ijraa->watika_up=request('file');
-        if(!empty(request('file'))){
-        $path = $request->file('file')->store('files');
-        }
+
         $Ijraa->note=request('note');
+        
+        $Flist =  $Ijraa->Flist;
+
+        $length = request('length');
+
+        if(!empty(request('fileN'))){
+            $time = Carbon::now();
+            for($i=1; $i<request('fileN')+1;$i++){
+                $lastelem=$length + $i;
+                if(!empty(request("add_file-{$lastelem}"))){
+                    $file = request("add_file-{$lastelem}");
+                    $fileName = $file->getClientOriginalName();
+                    //saving the file path and name, to do that we need a table to do soo
+                    $Flist["file{$lastelem}"] = ["{$time->year}/ijraa/ijraa-{ $Ijraa->Raqem}",$fileName];
+                $path = $request->file("add_file-{$lastelem}")->storeAs(
+                    "public/{$time->year}/ijraa/ijraa-{ $Ijraa->Raqem}",$fileName
+                );}
+         }
+         $Ijraa->Flist= $Flist;
+        }
         $Ijraa->save();
 
         return redirect()->route('search', ['findmilaf' => request('id'), 'wantedkind' => 'Ijraa'])->with('status','لفد تم تعديل الملف الخاص بكم');
