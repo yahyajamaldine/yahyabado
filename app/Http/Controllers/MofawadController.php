@@ -571,5 +571,10 @@ class MofawadController extends Controller
     
         return new BinaryFileResponse($file_path, 200, $headers);
     }
+
+    public function mofawad()
+    {
+      return view('mofawad');
+    }
     
 }
