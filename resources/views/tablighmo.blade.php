@@ -417,7 +417,18 @@ div.form_wrapper {
   display: none !important;
 }
 
+#bts{
+  display:flex;
+  justify-content: center;
+}
 
+.sb-button{
+  margin-left: 50px;
+}
+
+#co-button{
+  background: #6f6f6d;
+}
 </style>
 @section('content')
 <body>
@@ -633,13 +644,19 @@ div.form_wrapper {
                 <textarea id="molahda" name="note"  rows="4" cols="50">"{{  $table->note }} </textarea>
               </div>
                 <br/>
+                <div id="bts">
                 <div class="sb-button">
-                  <input class="button" type="submit" value="تعديل" />
+                  <input id="button-add" class="button" type="submit" value="حفظ " />
                 </div>
+
+                <div class="sb-button">
+                  <input id="co-button" class="button" type="submit" value="مرحلة الحساب" />
+                </div>
+               </div>
               </form>
               <div class="button-wrap">
-                        <a href="/search"><button class="button" id="register-btn" >إلغاء</button></a>
-                      </div>
+                <a href="/search"><button class="button" id="register-btn" >إلغاء</button></a>
+              </div>
             </div>
           </div>
         </div>

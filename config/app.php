@@ -17,6 +17,9 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    'charset' => 'utf-8',
+
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

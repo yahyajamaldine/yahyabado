@@ -230,6 +230,9 @@ mainpage.addEventListener('click',()=>{
 #file_result tr:nth-child(even){background-color: #f2f2f2;
 }
 
+tr a{
+  color:black;
+}
 #file_result  tr:nth-child(even) a{
  color:black;
 }

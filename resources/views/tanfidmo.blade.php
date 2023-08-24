@@ -4,10 +4,17 @@
   const mainpage= document.getElementById('mainpage');
   const fNumber=document.getElementById('fNumber');
   const FilesUp= document.getElementsByClassName('filElM');
+  const secondprt=document.getElementById('co-button');
 
 mainpage.addEventListener('click',()=>{
   window.location.href='/search';
 })
+
+secondprt.addEventListener('click',function(e){
+  e.preventDefault();
+  window.location.href='{{ route('mofawad',[ 'id' =>  $table->Raqem ] ) }}';
+})
+
 
 
 fNumber.addEventListener('change',function(param){
@@ -44,6 +51,30 @@ div.form_wrapper {
 }
 .form_wrapper .hidden{
   display: none !important;
+}
+
+#bts{
+  display:flex;
+  justify-content:space-between;
+  padding-right: 22%;
+  width:100%;
+  margin:0;
+}
+
+#bts .button-wrap {
+  width:max-content;
+}
+
+.sb-button:first-of-type{
+  float:right;
+}
+/*.sb-button:last-of-type{
+  margin-right:90px;
+}*/
+
+
+#co-button{
+  background: #6f6f6d;
 }
 </style>
 @section('content')
@@ -184,8 +215,7 @@ div.form_wrapper {
              $allowedfileNB= 5
           @endphp
           @endif
-             <!---We have to pay attention to the naMe of uploaded name, a repeated file name 
-                  may replace the old one--->
+             <!---We have to pay attention to the naMe of uploaded name, a repeated file name  may replace the old one-->
              <div class="input_field full-field">
                 <label class="field-text" for="myfile"> إضافة وثائق أخرى            </label>
                 <input type="number" min="0"  max="{{  $allowedfileNB  }}" name="fileN" id="fNumber"  placeholder="" />
@@ -203,13 +233,42 @@ div.form_wrapper {
               </div>
                 <br/>
                 <br/>
+                <div id="bts">
                 <div class="sb-button">
-                  <input class="button" type="submit" value="تعديل الوثيقة" />
+                  <input id="button-add" class="button" type="submit" value="حفظ " />
+                </div>
+
+                <div class="button-wrap sb-button">
+                        <a href="{{ route('mofawad',[ 'id' =>  $table->Raqem ] ) }}"><button class="button" id="co-button" >مرحلة الحساب
+                          <svg style="padding-top:5px" fill="white" height="20px" width="20px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+                          viewBox="0 0 460 460" xml:space="preserve">
+                       <g id="XMLID_241_">
+                         <g>
+                           <path d="M369.635,0H90.365C73.595,0,60,13.595,60,30.365v399.27C60,446.405,73.595,460,90.365,460h279.27
+                             c16.77,0,30.365-13.595,30.365-30.365V30.365C400,13.595,386.405,0,369.635,0z M108.204,343.61v-43.196
+                             c0-3.451,2.797-6.248,6.248-6.248h43.196c3.451,0,6.248,2.797,6.248,6.248v43.196c0,3.451-2.797,6.248-6.248,6.248h-43.196
+                             C111.001,349.858,108.204,347.06,108.204,343.61z M108.204,256.61v-43.196c0-3.451,2.797-6.248,6.248-6.248h43.196
+                             c3.451,0,6.248,2.797,6.248,6.248v43.196c0,3.451-2.797,6.248-6.248,6.248h-43.196C111.001,262.858,108.204,260.06,108.204,256.61
+                             z M308.891,421H151.109c-11.046,0-20-8.954-20-20c0-11.046,8.954-20,20-20h157.782c11.046,0,20,8.954,20,20
+                             C328.891,412.046,319.937,421,308.891,421z M208.402,294.165h43.196c3.451,0,6.248,2.797,6.248,6.248v43.196
+                             c0,3.451-2.797,6.248-6.248,6.248h-43.196c-3.451,0-6.248-2.797-6.248-6.248v-43.196
+                             C202.154,296.963,204.951,294.165,208.402,294.165z M202.154,256.61v-43.196c0-3.451,2.797-6.248,6.248-6.248h43.196
+                             c3.451,0,6.248,2.797,6.248,6.248v43.196c0,3.451-2.797,6.248-6.248,6.248h-43.196C204.951,262.858,202.154,260.06,202.154,256.61
+                             z M345.548,349.858h-43.196c-3.451,0-6.248-2.797-6.248-6.248v-43.196c0-3.451,2.797-6.248,6.248-6.248h43.196
+                             c3.451,0,6.248,2.797,6.248,6.248v43.196h0C351.796,347.061,348.999,349.858,345.548,349.858z M345.548,262.858h-43.196
+                             c-3.451,0-6.248-2.797-6.248-6.248v-43.196c0-3.451,2.797-6.248,6.248-6.248h43.196c3.451,0,6.248,2.797,6.248,6.248v43.196h0
+                             C351.796,260.061,348.999,262.858,345.548,262.858z M354,149.637c0,11.799-9.565,21.363-21.363,21.363H127.364
+                             C115.565,171,106,161.435,106,149.637V62.363C106,50.565,115.565,41,127.364,41h205.273C344.435,41,354,50.565,354,62.363V149.637
+                             z"/>
+                         </g>
+                       </g>
+                       </svg>                        </button>
+                      </div>
                 </div>
               </form>
               <div class="button-wrap">
-                        <a href="/search"><button class="button" id="register-btn" >إلغاء</button></a>
-                      </div>
+                        <a href="/search"><button class="button" id="register-btn" > إلغاء</button></a>
+                </div>
             </div>
           </div>
         </div>

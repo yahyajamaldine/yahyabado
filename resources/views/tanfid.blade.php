@@ -49,6 +49,8 @@ div.form_wrapper {
 .form_wrapper .hidden{
   display: none !important;
 }
+
+
 </style>
 @section('content')
 
@@ -197,9 +199,11 @@ div.form_wrapper {
               </div>
                 <br/>
                 <br/>
+                <div id="bts">
                 <div class="sb-button">
-                  <input id="button-add" class="button" type="submit" value="إضافة الوثيقة" />
+                  <input id="button-add" class="button" type="submit" value="حفظ " />
                 </div>
+               </div>
               </form>
             </div>
           </div>

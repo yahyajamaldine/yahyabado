@@ -560,7 +560,7 @@ class MofawadController extends Controller
         $headers = [
             'Content-Type' => 'application/octet-stream',
             'Content-Description' => 'File Transfer',
-            'Content-Disposition' => 'attachment; filename="' . basename($file_path) . '"',
+            'Content-Disposition' => 'attachment; filename="'.rawurlencode(basename($file_path)).'"',
             'Content-Length' => filesize($file_path),
             'Cache-Control' => 'no-cache, no-store, must-revalidate',
             'Pragma' => 'no-cache',
@@ -572,9 +572,18 @@ class MofawadController extends Controller
         return new BinaryFileResponse($file_path, 200, $headers);
     }
 
-    public function mofawad()
+    public function mofawad(Request $request)
     {
-      return view('mofawad');
-    }
+        
+
+             $table=DB::table('file_tanfidi')->find(request('id'));
+
+             $ramz = json_decode($table->ramz);
+
+             $id = $table->id;
+
+            return view('mofawad',[ "id" => $id, "ramz" => $ramz ]);
+        
+     }
     
 }
