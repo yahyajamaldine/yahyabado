@@ -30,12 +30,12 @@ class DocsContorller extends Controller
         //getting the info about the current document
         $file_tanfidi=file_tanfidi::find(request('id'));
         
-        $fontStyle = new \PhpOffice\PhpWord\TemplateProcessor;
+      /*  $fontStyle = new \PhpOffice\PhpWord\TemplateProcessor;
         $fontStyle->setName('Times New Roman');
         $fontStyle->setSize(14);
         $fontStyle->setBold(true);
         $fontStyle->setColor('blackaqxcvwqsdfgj<WXCVW>w>XCDF');
-
+    */
 
 
 
