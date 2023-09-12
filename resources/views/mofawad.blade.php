@@ -16,7 +16,8 @@
         const Aaldha= document.getElementById('AidAladha');
         const Numberofchild=document.getElementById('Numberofchil');
         const Childsmoney=document.getElementById('Childsmoney');
-        const HouseMoney=document.getElementById('Housemoney');
+        //this variable should be saken
+        //const HouseMoney=document.getElementById('Housemoney');
         let lAsel=document.getElementById('lAsel');
         let mofawed=document.getElementById('mofawed');
         let Saar=document.getElementById('saar');
@@ -39,7 +40,8 @@
         checkboxWife.addEventListener('click',()=>{
           Wifestatus=!Wifestatus;
             Wifeinputs.forEach(item=>{
-              item.classList.toggle('whidden')
+              item.classList.toggle('whidden');
+              CalculWife();
             })
         })
 
@@ -47,6 +49,7 @@
           Childstatus=!Childstatus;
           Childinputs.forEach(item=>{
             item.classList.toggle('chidden');
+            CalculChild();
           })
         })
          /****
@@ -101,6 +104,8 @@
             }
               else{
                 Wifetotal=0;
+                console.log(Wifetotal);  
+
               }
             }
           
@@ -160,7 +165,13 @@
             Time= dayjs(TimeB.value);
             months= Math.abs(Time.diff(TimeA.value, 'month', true)).toFixed(2); 
           }
+          //old code
+          /*
           if( (months && Wifestatus) && (Childsmoney.value && HouseMoney.value) && Numberofchild.value){
+            LAselfunc();
+          }*/
+          //new code
+          if(months && Wifestatus){
             LAselfunc();
           }
          }
@@ -175,11 +186,13 @@
            AidCalcUltor();
         })
 
-      /**  WifeMoney.addEventListener('change',()=>{
+      /*  WifeMoney.addEventListener('change',()=>{
           if( (months && Wifestatus) && (Childsmoney.value && HouseMoney.value) && Numberofchild.value){
             LAselfunc();
           }
-        })**/
+        })*/
+
+
         Numberofchild.addEventListener('change',()=>{
           if( (months && Wifetotal) && Childstotal && Numberofchild.value){
             LAselfunc();
@@ -187,7 +200,12 @@
         })
 
         Saar.addEventListener('change',()=>{
-          if( (months && Wifetotal) && (Childsmoney.value && HouseMoney.value) && Numberofchild.value){
+          //old code
+          /*if( (months && Wifetotal) && (Childsmoney.value && HouseMoney.value) && Numberofchild.value){
+            LAselfunc();
+          }*/
+          //new code
+          if(months && Wifestatus){
             LAselfunc();
           }
         })
@@ -200,7 +218,7 @@
         function LAselfunc(){
           let lAselam;
           lAsel.value=lAselam=(months*( Wifestatus ? Wifetotal : 1) )+(months* ( Childstatus ? Childstotal : 1 )*Numberofchild.value);
-          lAsel.value=(Number(lAsel.value).toFixed(2))+' درهم ';
+          lAsel.value=Number(lAsel.value).toFixed(2);
         
           if((Number(lAselam)>20001)){
             mofawed.value=Math.round(800+((Number(lAselam)-20000)*0.02));
@@ -228,12 +246,12 @@
             tva.value=Math.round((Number(tva.value).toFixed(2)));
           }
           if(Number(lAselam) &&Number(Saar.value)){
-             wajiblkhazina.value=(Number(lAselam)+Number(Saar.value))/200;
+             wajiblkhazina.value=Number((Number(lAselam)+Number(Saar.value))/200).toFixed(2);
           }
 
           if(mofawed.value && lAselam && Number(Saar.value) && Number(tva.value) && Number(Saar.value)){
             total.value =Number(mofawed.value)+Number(Saar.value)+Number(tva.value)+lAselam+Number(wajiblkhazina.value);
-            total.value=(Number(total.value).toFixed(2)) +' درهم ';
+            total.value=(Number(total.value).toFixed(2));
           }
         } 
       }
@@ -319,14 +337,15 @@ form .aidhidden{
     <div class="form_wrapper">
         <div class="form_container">
           <div class="title_container">
-            <h1>معطيات ملف التنفيد</h1>
+            <h1>معطيات المحضر الخاص بملف التنفيد</h1>
           </div>
           <div class="row clearfix">
             <div class="">
-              <form>
+              <form method="POST" action="{{ route('wordf', $id) }}" enctype="multipart/form-data" >
+               @csrf
                <div class="input_field full-field select_option">
                   <label class="field-text">الرقم التسلسلي                </label>
-                  <input type="text" name="Raqem" disabled value="{{  $id }}" readonly placeholder=" الرقم التسلسلي " required />
+                  <input type="text" name="id" disabled value="{{  $id }}" readonly placeholder=" الرقم التسلسلي " required />
                 </div>
                 <div class="input_field full-field">
                   <label class="field-text">مراجع الملف موضوع الاجراء                </label>
@@ -341,25 +360,25 @@ form .aidhidden{
                 <div class="input_field full-field select_option">
                   <label class="field-text">موضوع ملف التنفيد</label>
                   <div class="select_arrow" ></div>
-                    <select>
-                      <option>... اختيار</option>
-                      <option>النفقة</option>
-                      <option>موضوع 2</option>
+                    <select id="its_type" name="source" required>
+                      <option disabled selected>... اختيار</option>
+                      <option value="النفقة">النفقة</option>
+                      <option value="موضوع 2">موضوع 2</option>
                     </select>
                 </div>
                 <div class="input_field full-field">
                     <label class="field-text">تاريخ الحكم</label>
-                    <input type="date" name="tarikh_hokm" placeholder="Password" required />
+                    <input type="date" name="date_creation" required />
                 </div>
                 <div class="input_field checkbox_option">
                    <div id="checkboxWife" class="checkbox-opt">
                    <p class="field-text">نفقة الزوجة</p>
-                    <input type="checkbox" id="cb4">
+                    <input type="checkbox" name="wife" id="cb4">
                     <label  for="cb4" class="field-text"></label>
                    </div>
                    <div id="checkboxChilds" class="checkbox-opt">
                    <p class="field-text">نفقة الأبناء</p>
-                    <input type="checkbox" id="cb5">
+                    <input type="checkbox"  name="child" id="cb5">
                     <label  for="cb5" class="field-text"></label>
                    </div>
                 </div>
@@ -382,39 +401,39 @@ form .aidhidden{
               </div>
               <div  class="input_field full-field childs-field chidden">
                 <label class="field-text">نفقة الأبناء</label>
-                <input type="number" name="nafaka_child" id="nafaka_child" placeholder="بالدرهم" required />
+                <input type="number" name="nafaka_child" id="nafaka_child" placeholder="بالدرهم"  />
               </div>
               <div  class="input_field full-field childs-field chidden">
                 <label class="field-text"> السكن</label>
-                <input type="number" name="saken" id="saken" placeholder="بالدرهم" required />
+                <input type="number" name="saken" id="saken" placeholder="بالدرهم"/>
               </div>
               <div  class="input_field full-field childs-field chidden">
                 <label class="field-text"> الحضانة</label>
-                <input type="number" name="lhadana" id="lhadana" placeholder="بالدرهم" required />
+                <input type="number" name="lhadana" id="lhadana" placeholder="بالدرهم"/>
               </div>
               <div  id="AidAladha" class="input_field full-field childs-field chidden aidhidden">
                 <label class="field-text"> الأعياد: عيد الأضحى*</label>
-                <input type="number" name="aladha" id="aladha" placeholder="بالدرهم" required />
+                <input type="number" name="aladha" id="aladha" placeholder="بالدرهم"/>
               </div>
               <div id="AidAlfitr" class="input_field full-field childs-field chidden aidhidden">
                 <label class="field-text"> الأعياد: عيد الفطر*</label>
-                <input type="number" id="alfitr" name="alfitr" placeholder="بالدرهم" required />
+                <input type="number" id="alfitr" name="alfitr" placeholder="بالدرهم"/>
               </div>
                <div class="input_field full-field childs-field chidden">
                 <label class="field-text">عدد الأبناء</label>
-                <input type="number" name="Numberofchild" id="Numberofchil" placeholder=" الأبناء" required />
+                <input type="number" name="Numberofchild" id="Numberofchil" placeholder=" الأبناء"/>
               </div>    
             <div class="input_field full-field">
                 <label class="field-text">تاريخ بداية التنفيد</label>
-                <input type="date" id="TimeA" name="TimeA" placeholder="Password" required />
+                <input type="date" id="TimeA" name="start_date" required />
              </div>
             <div class="input_field full-field">
               <label class="field-text">تاريخ نهاية التنفيد</label>
-              <input type="date" id="TimeB" name="timeB" placeholder="Password" required />
+              <input type="date" id="TimeB" name="end_date"  required />
              </div>
               <div class="input_field full-field  ">
                 <label class="field-text"> الاصل</label>
-                <input type="text" name="lAsel" disabled id="lAsel" placeholder="00.00 درهم " />
+                <input type="number" name="lAsel" readonly id="lAsel" placeholder="00.00 درهم " />
               </div>
               <div class="input_field full-field">
                 <label class="field-text"> الصائر</label>
@@ -422,24 +441,27 @@ form .aidhidden{
               </div>
               <div class="input_field full-field">
                 <label class="field-text"> اتعاب المفوض</label>
-                <input type="text" id="mofawed" disabled name="mofawed" placeholder="00.00 درهم " />
+                <input type="number" id="mofawed" readonly name="mofawed" placeholder="00.00 درهم " />
               </div>
               <div class="input_field full-field">
                 <label class="field-text"> واجب الخزينة</label>
-                <input type="text" id="wajiblkhazina" disabled name="wajiblkhazina" placeholder="00.00 درهم " />
+                <input type="number" id="wajiblkhazina" readonly name="wajiblkhazina" placeholder="00.00 درهم " />
               </div>
               <div class="input_field full-field">
                 <label class="field-text"> TVA</label>
-                <input type="text" disabled id="TVA" name="tva" placeholder="00.00 درهم " />
+                <input type="number" readonly id="TVA" name="tva" placeholder="00.00 درهم " />
               </div>
               <div class="input_field full-field">
                 <label class="field-text"> المجموع</label>
-                <input type="text"  id="total" disabled  placeholder="00,00 درهم" required />
+                <input type="number"  name="total" id="total" readonly  placeholder="00,00 درهم" required />
               </div>
                 <div class="sb-button">
                   <input class="button" type="submit" value="طبع" />
                 </div>
               </form>
+              <div class="button-wrap">
+                <a href="/search"><button class="button" id="register-btn" > إلغاء</button></a>
+               </div>
             </div>
           </div>
         </div>

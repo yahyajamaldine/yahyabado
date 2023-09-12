@@ -1,0 +1,6 @@
+
+
+
+
+
+ma7dar(#id,subj,data-ma7dar,wife(bool),child(bool), start-date, end-data, 2asel, saair, lmofawad, khazina, tva, total); 

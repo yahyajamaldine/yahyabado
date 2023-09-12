@@ -67,6 +67,6 @@ Route::get('/download/{path}','App\Http\Controllers\MofawadController@download')
 
 Route::get('/mofawad/{id}','App\Http\Controllers\MofawadController@mofawad')->name('mofawad');
 
-Route::get('/word','App\Http\Controllers\DocsContorller@wordf')->name('wordf');
+Route::post('/word/{id}','App\Http\Controllers\DocsContorller@wordf')->name('wordf');
 
 Route::get('/','App\Http\Controllers\MofawadController@index')->name('index');
