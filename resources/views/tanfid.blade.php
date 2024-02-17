@@ -87,7 +87,7 @@ div.form_wrapper {
               {{-- Include the Livewire component --}}
               {{-- This component contains the selected year and the id of the document--}}
                 
-                <livewire:id-by-year/>
+               {{-- <livewire:id-by-year/>  --}}
                 
                 <div class="input_field full-field">
                     <label class="field-text">تاريخ تسلم الوثيقة موضوع الإجراء

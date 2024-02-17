@@ -106,11 +106,11 @@ class MofawadController extends Controller
        */
     public function create_tanfid(Request $request) {
         
-        if(empty(request('selectedYear'))){
+        if(empty(request('date_receive'))){
             $todayYear=date("Y");
         }
         else{
-            $todayYear=request('selectedYear');
+            $todayYear=date('Y', strtotime(request('date_receive')));
         }
 
         $lastIdOfYear = file_tanfidi::whereYear('date_receive', $todayYear)->max('id');

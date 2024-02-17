@@ -8,14 +8,14 @@ use Livewire\Component;
 
 class IdByYear extends Component
 {
-    public $selectedYear;
+    public $Date_receive;
     public $DydocumentId;
     public $field;
     public $tyear;
     public function render()
     {
-        if(empty($this->selectedYear)){
-       $LastEntry=file_tanfidi::latest('id')->first();
+    
+        $LastEntry=file_tanfidi::latest('id')->first();
         $MaxIdYear= date('Y', strtotime($LastEntry->date_receive));
         $TodayYear= date('Y');
         if($TodayYear == $MaxIdYear){
@@ -27,22 +27,25 @@ class IdByYear extends Component
             $this->DydocumentId = 1;
            }
         }
-        }
         //if($this->field->date_recieve)
         return view('livewire.id-by-year-component');
     }
 
-    public function updatedSelectedYear()
+    public function updatedDate_receive()
     {
         // No need to call getDocumentId here
-         
-        if(empty($this->selectedYear)){
-            $this->selectedYear=date("Y");
+      /*   
+       if(empty($this->Date_receive)){
+            $this->Date_receive=date('Y');
         }
-        $lastIdOfYear = file_tanfidi::whereYear('date_receive', $this->selectedYear)->max('id');
+        $this->tyear=date('Y', strtotime($this->Date_receive));
+        $lastIdOfYear = file_tanfidi::whereYear('date_receive',date('Y', strtotime($this->Date_receive)))->max('id');
 
         // Set the document ID property
         $this->DydocumentId = $lastIdOfYear ? $lastIdOfYear + 1 : 1;
     }
+    */
+    $this->tyear=date('Y', strtotime($this->Date_receive));
+}
 
 }
