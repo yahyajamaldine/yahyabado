@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->string('Raqem');
             $table->string('ramz');
-            $table->string('Flist',500)->nullable();
             $table->string('kad_type');
             $table->date('jalsa_date');
             $table->string('source')->nullable();
@@ -30,9 +29,11 @@ return new class extends Migration
             $table->string('matlob')->nullable();
             $table->date('date_ijraa')->nullable();
             $table->date('watika_reciev')->nullable();
+            $table->string('watika')->nullable();
             $table->string('add_notif')->nullable();
             $table->text('note')->nullable();
             $table->timestamps();
+            $table->string('Flist',500)->nullable();
         });
     }
 

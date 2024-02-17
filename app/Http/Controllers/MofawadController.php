@@ -90,13 +90,14 @@ class MofawadController extends Controller
     } 
 
     public function tanfid() {
-        $file_tanfidi=DB::table('file_tanfidi')->latest()->first();
+
+        /*$file_tanfidi= DB::table('file_tanfidi')->latest()->first();
         $id=1;
 
         if(!empty($file_tanfidi)){
             $id=($file_tanfidi->id)+1;
-        }
-        return view('tanfid', ['id' => $id]);
+        }*/
+        return view('tanfid');
     } 
       /********
        * method to create a new tanifi file
@@ -105,12 +106,22 @@ class MofawadController extends Controller
        */
     public function create_tanfid(Request $request) {
         
-        $file_tanfidiID=DB::table('file_tanfidi')->latest()->first();
+        if(empty(request('selectedYear'))){
+            $todayYear=date("Y");
+        }
+        else{
+            $todayYear=request('selectedYear');
+        }
+
+        $lastIdOfYear = file_tanfidi::whereYear('date_receive', $todayYear)->max('id');
+
+        // Set the document ID property
+        $NewdocumentId = $lastIdOfYear ? $lastIdOfYear + 1 : 1;
         $file_tanfidi=new file_tanfidi();
 
-        if(!empty($file_tanfidiID)){
-            $file_tanfidi->Raqem=($file_tanfidiID->id)+1;
-            $file_tanfidi->id=($file_tanfidiID->id)+1;
+        if(!empty($NewdocumentId)){
+            $file_tanfidi->Raqem=$NewdocumentId;
+            $file_tanfidi->id= $NewdocumentId;
         }
         else{
             $file_tanfidi->Raqem=1;

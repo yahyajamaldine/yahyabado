@@ -20,6 +20,8 @@ class file_tanfidi extends Model
         'ramz' =>  'array',
         'Flist' => 'array',
     ];
+
+    protected $primaryKey = ['year_column', 'id'];
     
     use HasFactory;
     

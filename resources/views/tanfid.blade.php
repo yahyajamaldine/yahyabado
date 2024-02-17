@@ -1,42 +1,4 @@
 @extends('layout.app')
-<script type="text/javascript">
- onload=()=>{
-  const mainpage= document.getElementById('mainpage');
-  const fNumber=document.getElementById('fNumber');
-  const FilesUp= document.getElementsByClassName('filElM');
-
-  const buttonadd=document.getElementById('button-add');
-
-  const file_form=document.getElementById('file_form');
-
-mainpage.addEventListener('click',()=>{
-  window.location.href='/search';
-})
-
-fNumber.addEventListener('change',function(param){
-
-    for(let i=0;i<(this.value);i++){
-     /* Showing wanted number of upload foreme*/
-       FilesUp[i].classList.remove('hidden')
-       FilesUp[i].setAttribute('required','');
-
-      }
-
-       for(let i=(this.value);i<(FilesUp.length);i++){
-     /* hidding none wanted files*/
-       FilesUp[i].classList.add('hidden');
-       FilesUp[i].removeAttribute('required');
-       }
-    
-})
-
-       file_form.addEventListener('submit',()=>{
-      buttonadd.disabled = true;
-     });
-
-
- }
-</script>
 <style type="text/css">
 div.form_wrapper {
   width: 55%;
@@ -122,10 +84,11 @@ div.form_wrapper {
             <div class="">
               <form id="file_form" class="file_form" method="POST" enctype="multipart/form-data" action="{{ route('create_tanfid') }}">
               @csrf
-                <div class="input_field full-field select_option">
-                  <label class="field-text">الرقم التسلسلي                </label>
-                  <input type="text" name="Raqem" value="{{ $id }}" readonly placeholder=" الرقم التسلسلي " required />
-                </div>
+              {{-- Include the Livewire component --}}
+              {{-- This component contains the selected year and the id of the document--}}
+                
+                <livewire:id-by-year/>
+                
                 <div class="input_field full-field">
                     <label class="field-text">تاريخ تسلم الوثيقة موضوع الإجراء
                     </label>
@@ -211,4 +174,44 @@ div.form_wrapper {
       </div>
     
 </body>
+
+<script type="text/javascript">
+
+  onload=()=>{
+   const mainpage= document.getElementById('mainpage');
+   const fNumber=document.getElementById('fNumber');
+   const FilesUp= document.getElementsByClassName('filElM');
+ 
+   const buttonadd=document.getElementById('button-add');
+ 
+   const file_form=document.getElementById('file_form');
+ 
+ mainpage.addEventListener('click',()=>{
+   window.location.href='/search';
+ })
+ 
+ fNumber.addEventListener('change',function(param){
+ 
+     for(let i=0;i<(this.value);i++){
+      /* Showing wanted number of upload foreme*/
+        FilesUp[i].classList.remove('hidden')
+        FilesUp[i].setAttribute('required','');
+ 
+       }
+ 
+        for(let i=(this.value);i<(FilesUp.length);i++){
+      /* hidding none wanted files*/
+        FilesUp[i].classList.add('hidden');
+        FilesUp[i].removeAttribute('required');
+        }
+     
+ })
+ 
+        file_form.addEventListener('submit',()=>{
+       buttonadd.disabled = true;
+      });
+ 
+ 
+  }
+ </script>
 @endsection

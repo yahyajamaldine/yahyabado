@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Livewire\Counter;
+
+ 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,7 +18,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Auth::routes(); 
 
 Route::get('/tabligh','App\Http\Controllers\MofawadController@tabligh')->name('tabligh');
 
@@ -43,6 +46,8 @@ Route::post('/searchfor','App\Http\Controllers\MofawadController@searchfor')->na
 
 Route::get('/login','App\Http\Controllers\AuthViewController@login')->name('login');
 
+Route::get('/logout','App\Http\Controllers\AuthViewController@login')->name('logout');
+
 Route::post('/login','App\Http\Controllers\AuthViewController@loginCheck')->name('login.check');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -70,3 +75,7 @@ Route::get('/mofawad/{id}','App\Http\Controllers\MofawadController@mofawad')->na
 Route::post('/word/{id}','App\Http\Controllers\DocsContorller@wordf')->name('wordf');
 
 Route::get('/','App\Http\Controllers\MofawadController@index')->name('index');
+
+Route::get('/','App\Http\Controllers\MofawadController@index')->name('index');
+
+Route::get('/counter', Counter::class);
